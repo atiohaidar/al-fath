@@ -1,6 +1,8 @@
 import { useState } from "react";
 import AppLayout from "@/components/layout/AppLayout";
 import { Calendar, MapPin, Clock, Users, Filter } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface Event {
   id: string;
@@ -82,9 +84,9 @@ const Events = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-extrabold text-foreground">Event</h1>
-          <button className="w-10 h-10 bg-muted border-playful rounded-xl flex items-center justify-center btn-pop">
+          <Button variant="playful" size="icon-playful" className="bg-muted">
             <Filter className="w-5 h-5" />
-          </button>
+          </Button>
         </div>
 
         {/* Filter Tabs */}
@@ -95,23 +97,22 @@ const Events = () => {
             { key: "ongoing", label: "Berlangsung" },
             { key: "done", label: "Selesai" },
           ].map((tab) => (
-            <button
+            <Button
               key={tab.key}
               onClick={() => setFilter(tab.key as StatusFilter)}
-              className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${filter === tab.key
-                ? "gradient-yellow border-playful shadow-playful-sm"
-                : "bg-muted text-muted-foreground"
-                }`}
+              variant={filter === tab.key ? "gradient-yellow" : "ghost"}
+              className={`rounded-full whitespace-nowrap ${filter === tab.key ? "" : "bg-muted text-muted-foreground"}`}
+              size="sm"
             >
               {tab.label}
-            </button>
+            </Button>
           ))}
         </div>
 
         {/* Events List */}
         <div className="space-y-4">
           {filteredEvents.map((event) => (
-            <div key={event.id} className="card-pop p-4 space-y-3">
+            <Card key={event.id} variant="playful" className="p-4 space-y-3">
               <div className="flex justify-between items-start gap-3">
                 <div className="flex-1">
                   <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold mb-2 ${statusConfig[event.status].className}`}>
@@ -144,15 +145,15 @@ const Events = () => {
 
               <div className="flex gap-2 pt-2">
                 {event.status !== "done" && (
-                  <button className="flex-1 py-2 gradient-green border-playful rounded-xl font-bold text-sm btn-pop text-success-foreground">
+                  <Button variant="gradient-green" className="flex-1" size="sm">
                     Presensi
-                  </button>
+                  </Button>
                 )}
-                <button className="flex-1 py-2 bg-muted border-playful rounded-xl font-bold text-sm btn-pop text-foreground">
+                <Button variant="playful" className="flex-1 bg-muted" size="sm">
                   Detail
-                </button>
+                </Button>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       </div>

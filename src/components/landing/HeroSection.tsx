@@ -1,9 +1,10 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
     return (
-        <section id="home" className="pt-32 pb-20 relativoverflow-hidden">
+        <section id="home" className="pt-32 pb-20 relative overflow-hidden">
             <div className="container mx-auto px-4 text-center relative z-10">
 
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 text-secondary font-bold text-sm mb-8 border-2 border-secondary/20 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -27,19 +28,26 @@ const HeroSection = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300">
-                    <Link
-                        to="/auth?mode=register"
-                        className="px-8 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-2xl shadow-playful hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-playful-sm transition-all border-2 border-alfath-dark flex items-center gap-2"
+                    <Button
+                        asChild
+                        variant="gradient-primary"
+                        size="lg"
                     >
-                        Gabung Sekarang
-                        <ArrowRight className="w-5 h-5" />
-                    </Link>
-                    <a
-                        href="#about"
-                        className="px-8 py-4 bg-card text-foreground font-bold text-lg rounded-2xl border-2 border-border hover:border-playful hover:bg-muted/50 transition-all"
+                        <Link to="/auth?mode=register">
+                            Gabung Sekarang
+                            <ArrowRight className="w-5 h-5" />
+                        </Link>
+                    </Button>
+                    <Button
+                        asChild
+                        variant="outline"
+                        size="lg"
+                        className="border-2"
                     >
-                        Pelajari Lebih Lanjut
-                    </a>
+                        <a href="#about">
+                            Pelajari Lebih Lanjut
+                        </a>
+                    </Button>
                 </div>
             </div>
 

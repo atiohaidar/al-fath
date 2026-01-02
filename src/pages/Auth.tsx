@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Eye, EyeOff, LogIn, UserPlus, Sparkles } from "lucide-react";
+import { Eye, EyeOff, LogIn, UserPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useRepositories } from "@/hooks/use-repositories";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ROUTES } from "@/lib/routes";
 
 type AuthMode = "login" | "register";
 
@@ -25,11 +28,10 @@ const Auth = () => {
       if (mode === "login") {
         const user = await authRepository.login(formData.email, formData.password);
         if (user) {
-          // ensure id is treated as number for setSession
           const userId = user.id ? parseInt(user.id) : 0;
           await (authRepository as any).setSession(userId);
           toast.success("Berhasil masuk!");
-          navigate("/app");
+          navigate(ROUTES.APP.HOME);
         } else {
           toast.error("Email atau password salah");
         }
@@ -39,7 +41,6 @@ const Auth = () => {
           password: formData.password,
           nama: formData.nama,
           nim: formData.nim,
-          // Default values for now, can be updated in profile settings later
           divisi: "Anggota Baru",
           departemen: "Kaderisasi",
           tingkatKader: "Kader Muda",
@@ -69,24 +70,22 @@ const Auth = () => {
 
       {/* Toggle Tabs */}
       <div className="flex gap-2 p-1 bg-muted rounded-2xl mb-6">
-        <button
+        <Button
+          type="button"
           onClick={() => setMode("login")}
-          className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${mode === "login"
-            ? "gradient-primary border-playful shadow-playful-sm text-primary-foreground"
-            : "text-muted-foreground hover:text-foreground"
-            }`}
+          variant={mode === "login" ? "gradient-primary" : "ghost"}
+          className="flex-1"
         >
           Masuk
-        </button>
-        <button
+        </Button>
+        <Button
+          type="button"
           onClick={() => setMode("register")}
-          className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${mode === "register"
-            ? "gradient-primary border-playful shadow-playful-sm text-primary-foreground"
-            : "text-muted-foreground hover:text-foreground"
-            }`}
+          variant={mode === "register" ? "gradient-primary" : "ghost"}
+          className="flex-1"
         >
           Daftar
-        </button>
+        </Button>
       </div>
 
       {/* Form */}
@@ -95,23 +94,21 @@ const Auth = () => {
           <>
             <div className="space-y-2">
               <label className="text-sm font-semibold text-foreground">Nama Lengkap</label>
-              <input
+              <Input
                 type="text"
                 placeholder="Masukkan nama lengkap"
                 value={formData.nama}
                 onChange={(e) => setFormData({ ...formData, nama: e.target.value })}
-                className="w-full p-4 bg-card border-playful rounded-xl font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-semibold text-foreground">NIM</label>
-              <input
+              <Input
                 type="text"
                 placeholder="Masukkan NIM"
                 value={formData.nim}
                 onChange={(e) => setFormData({ ...formData, nim: e.target.value })}
-                className="w-full p-4 bg-card border-playful rounded-xl font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
             </div>
@@ -120,12 +117,11 @@ const Auth = () => {
 
         <div className="space-y-2">
           <label className="text-sm font-semibold text-foreground">Email</label>
-          <input
+          <Input
             type="email"
             placeholder="Masukkan email"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full p-4 bg-card border-playful rounded-xl font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             required
           />
         </div>
@@ -133,12 +129,12 @@ const Auth = () => {
         <div className="space-y-2">
           <label className="text-sm font-semibold text-foreground">Password</label>
           <div className="relative">
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               placeholder="Masukkan password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full p-4 pr-12 bg-card border-playful rounded-xl font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              className="pr-12"
               required
             />
             <button
@@ -157,9 +153,11 @@ const Auth = () => {
           </button>
         )}
 
-        <button
+        <Button
           type="submit"
-          className="w-full py-4 gradient-primary border-playful-thick rounded-xl font-bold text-lg flex items-center justify-center gap-2 btn-pop shadow-playful text-primary-foreground"
+          variant="gradient-primary"
+          size="lg"
+          className="w-full"
         >
           {mode === "login" ? (
             <>
@@ -172,7 +170,7 @@ const Auth = () => {
               Daftar
             </>
           )}
-        </button>
+        </Button>
       </form>
 
       {/* Footer */}

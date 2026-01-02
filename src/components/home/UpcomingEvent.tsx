@@ -1,6 +1,7 @@
 import { MapPin, Clock, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import SectionLabel from "@/components/ui/SectionLabel";
+import { Card } from "@/components/ui/card";
 
 interface Event {
   id: string;
@@ -40,23 +41,25 @@ const UpcomingEvent = ({ events }: UpcomingEventProps) => {
 
       <div className="space-y-3">
         {events.slice(0, 2).map((event) => (
-          <Link key={event.id} to={`/events/${event.id}`} className="card-pop p-4 block">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-bold text-foreground">{event.title}</h3>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${statusConfig[event.status].className}`}>
-                {statusConfig[event.status].label}
-              </span>
-            </div>
-            <div className="flex gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                {event.date} • {event.time}
-              </span>
-              <span className="flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
-                {event.location}
-              </span>
-            </div>
+          <Link key={event.id} to={`/events/${event.id}`} className="block">
+            <Card variant="playful" className="p-4">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-bold text-foreground">{event.title}</h3>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${statusConfig[event.status].className}`}>
+                  {statusConfig[event.status].label}
+                </span>
+              </div>
+              <div className="flex gap-4 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  {event.date} • {event.time}
+                </span>
+                <span className="flex items-center gap-1">
+                  <MapPin className="w-3 h-3" />
+                  {event.location}
+                </span>
+              </div>
+            </Card>
           </Link>
         ))}
       </div>

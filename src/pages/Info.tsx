@@ -3,6 +3,8 @@ import { ChevronRight, Target, Users, Building2, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import InfoCard from "@/components/ui/InfoCard";
 import SectionLabel from "@/components/ui/SectionLabel";
+import { Card } from "@/components/ui/card";
+import { ROUTES } from "@/lib/routes";
 
 const menuItems = [
   {
@@ -10,28 +12,28 @@ const menuItems = [
     title: "Visi Misi Al Fath",
     description: "Visi, misi, dan tujuan organisasi",
     path: "/info/visi-misi",
-    color: "gradient-yellow",
+    color: "gradient-yellow", // TETAP SAMA
   },
   {
     icon: Building2,
     title: "Departemen & Divisi",
     description: "Struktur dan tugas masing-masing bagian",
     path: "/info/departemen",
-    color: "gradient-blue",
+    color: "gradient-blue", // TETAP SAMA
   },
   {
     icon: Users,
     title: "Anggota",
     description: "Daftar anggota per departemen/divisi",
     path: "/info/anggota",
-    color: "gradient-green",
+    color: "gradient-green", // TETAP SAMA
   },
   {
     icon: BookOpen,
     title: "Tingkat Kader",
     description: "Jenjang dan syarat kenaikan tingkat",
     path: "/info/tingkat-kader",
-    color: "gradient-red",
+    color: "gradient-red", // TETAP SAMA
   },
 ];
 
@@ -111,19 +113,17 @@ const Info = () => {
             {menuItems.map((item) => {
               const Icon = item.icon;
               return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className="card-pop p-4 flex items-center gap-4"
-                >
-                  <div className={`w-12 h-12 ${item.color} rounded-xl border-playful flex items-center justify-center flex-shrink-0`}>
-                    <Icon className="w-6 h-6 text-foreground" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-foreground">{item.title}</h3>
-                    <p className="text-xs text-muted-foreground truncate">{item.description}</p>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                <Link key={item.path} to={item.path} className="block">
+                  <Card variant="playful" className="p-4 flex items-center gap-4">
+                    <div className={`w-12 h-12 ${item.color} rounded-xl border-playful flex items-center justify-center flex-shrink-0`}>
+                      <Icon className="w-6 h-6 text-foreground" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-foreground">{item.title}</h3>
+                      <p className="text-xs text-muted-foreground truncate">{item.description}</p>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                  </Card>
                 </Link>
               );
             })}
@@ -135,18 +135,18 @@ const Info = () => {
           <SectionLabel variant="success">Statistik</SectionLabel>
 
           <div className="grid grid-cols-3 gap-3">
-            <div className="card-pop p-4 text-center">
+            <Card variant="playful" className="p-4 text-center">
               <p className="text-2xl font-extrabold text-secondary">5</p>
               <p className="text-[10px] text-muted-foreground font-medium">Departemen</p>
-            </div>
-            <div className="card-pop p-4 text-center">
+            </Card>
+            <Card variant="playful" className="p-4 text-center">
               <p className="text-2xl font-extrabold text-success">12</p>
               <p className="text-[10px] text-muted-foreground font-medium">Divisi</p>
-            </div>
-            <div className="card-pop p-4 text-center">
+            </Card>
+            <Card variant="playful" className="p-4 text-center">
               <p className="text-2xl font-extrabold text-accent">156</p>
               <p className="text-[10px] text-muted-foreground font-medium">Anggota</p>
-            </div>
+            </Card>
           </div>
         </div>
 
@@ -167,4 +167,3 @@ const Info = () => {
 };
 
 export default Info;
-

@@ -1,4 +1,7 @@
 import { Bell, Sparkles } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface GreetingCardProps {
   name: string;
@@ -15,7 +18,7 @@ const GreetingCard = ({ name, tingkatKader }: GreetingCardProps) => {
   };
 
   return (
-    <div className="card-greeting p-5 relative overflow-hidden">
+    <Card variant="greeting" className="p-5 relative overflow-hidden">
       {/* Decorative star elements */}
       <img
         src="/assets/playful/Star/Merah.png"
@@ -43,18 +46,17 @@ const GreetingCard = ({ name, tingkatKader }: GreetingCardProps) => {
             <h1 className="text-2xl font-extrabold text-white mt-1">
               {name}
             </h1>
-            <span className="inline-block mt-2 px-3 py-1 bg-white/20 text-white backdrop-blur-sm text-xs font-bold rounded-full border border-white/20">
+            <Badge variant="playful-green" className="mt-2 bg-white/20 text-white backdrop-blur-sm border-white/20">
               {tingkatKader}
-            </span>
+            </Badge>
           </div>
-          <button className="w-12 h-12 bg-card border-playful rounded-xl flex items-center justify-center shadow-playful-sm active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all">
+          <Button variant="playful" size="icon-playful" className="bg-card">
             <Bell className="w-5 h-5 text-alfath-dark" />
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
 export default GreetingCard;
-

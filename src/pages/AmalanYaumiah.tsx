@@ -6,6 +6,9 @@ import { id } from "date-fns/locale";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRepositories } from "@/hooks/use-repositories";
 import { Amalan } from "@/lib/data/interfaces";
+import AddAmalanDialog from "@/components/amalan/AddAmalanDialog";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const DEFAULT_AMALAN_TEMPLATE: Omit<Amalan, "id" | "date">[] = [
   { name: "Sholat Subuh", category: "Sholat Wajib", completed: false, time: "05:00" },
@@ -23,10 +26,10 @@ const DEFAULT_AMALAN_TEMPLATE: Omit<Amalan, "id" | "date">[] = [
 ];
 
 const categoryColors: Record<string, string> = {
-  "Sholat Wajib": "gradient-green",
-  "Sholat Sunnah": "gradient-blue",
-  "Al-Quran": "gradient-yellow",
-  "Dzikir": "gradient-red",
+  "Sholat Wajib": "gradient-green", // TETAP SAMA
+  "Sholat Sunnah": "gradient-blue", // TETAP SAMA
+  "Al-Quran": "gradient-yellow", // TETAP SAMA
+  "Dzikir": "gradient-red", // TETAP SAMA
   "Amal": "bg-alfath-green",
   "Puasa": "bg-alfath-blue",
   "Lainnya": "bg-muted"
@@ -34,6 +37,7 @@ const categoryColors: Record<string, string> = {
 
 const AmalanYaumiah = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { amalanRepository } = useRepositories();
   const queryClient = useQueryClient();
 
@@ -42,7 +46,6 @@ const AmalanYaumiah = () => {
   const { data: amalanList = [] } = useQuery({
     queryKey: ["amalans", formattedDate],
     queryFn: async () => {
-      // Init or get
       return await amalanRepository.initDailyAmalans(formattedDate, DEFAULT_AMALAN_TEMPLATE);
     },
   });
@@ -53,6 +56,7 @@ const AmalanYaumiah = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["amalans", formattedDate] });
+      queryClient.invalidateQueries({ queryKey: ["weekly-stats"] });
     },
   });
 
@@ -69,14 +73,17 @@ const AmalanYaumiah = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-extrabold text-foreground">Amalan Yaumiah</h1>
-          {/* Add button placeholder - functionality to be added later */}
-          <button className="w-10 h-10 gradient-yellow border-playful rounded-xl flex items-center justify-center btn-pop">
-            <Plus className="w-5 h-5 text-alfath-dark" />
-          </button>
+          <Button
+            onClick={() => setIsDialogOpen(true)}
+            variant="gradient-yellow"
+            size="icon-playful"
+          >
+            <Plus className="w-5 h-5" />
+          </Button>
         </div>
 
         {/* Date Navigator */}
-        <div className="flex items-center justify-between card-pop p-3">
+        <Card variant="playful" className="p-3 flex items-center justify-between">
           <button
             onClick={() => setSelectedDate(subDays(selectedDate, 1))}
             className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center"
@@ -97,10 +104,10 @@ const AmalanYaumiah = () => {
           >
             <ChevronRight className="w-5 h-5" />
           </button>
-        </div>
+        </Card>
 
         {/* Progress */}
-        <div className="card-pop p-4">
+        <Card variant="playful" className="p-4">
           <div className="flex justify-between items-center mb-3">
             <span className="text-sm font-semibold text-foreground">Progress Hari Ini</span>
             <span className="text-sm font-bold text-foreground">
@@ -120,7 +127,7 @@ const AmalanYaumiah = () => {
                 ? "💪 Semangat, tinggal sedikit lagi!"
                 : "☀️ Yuk mulai hari dengan amalan baik!"}
           </p>
-        </div>
+        </Card>
 
         {/* Amalan List */}
         <div className="space-y-3">
@@ -128,36 +135,48 @@ const AmalanYaumiah = () => {
             <button
               key={amalan.id}
               onClick={() => amalan.id && toggleAmalan(amalan.id)}
-              className={`w-full card-pop p-4 flex items-center gap-4 text-left transition-all ${amalan.completed ? "opacity-70" : ""
+              className={`w-full transition-all ${amalan.completed ? "opacity-70" : ""
                 }`}
             >
-              <div
-                className={`w-12 h-12 rounded-xl border-playful flex items-center justify-center flex-shrink-0 ${amalan.completed
-                  ? "gradient-green"
-                  : categoryColors[amalan.category] || "bg-muted"
-                  }`}
-              >
-                {amalan.completed ? (
-                  <Check className="w-6 h-6 text-success-foreground" />
-                ) : (
-                  <span className="text-lg">📿</span>
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3
-                  className={`font-bold text-foreground ${amalan.completed ? "line-through" : ""
+              <Card variant="playful" className="p-4 flex items-center gap-4 text-left">
+                <div
+                  className={`w-12 h-12 rounded-xl border-playful flex items-center justify-center flex-shrink-0 ${amalan.completed
+                    ? "gradient-green"
+                    : categoryColors[amalan.category] || "bg-muted"
                     }`}
                 >
-                  {amalan.name}
-                </h3>
-                <p className="text-xs text-muted-foreground">
-                  {amalan.category}
-                  {amalan.time && ` • ${amalan.time}`}
-                </p>
-              </div>
+                  {amalan.completed ? (
+                    <Check className="w-6 h-6 text-success-foreground" />
+                  ) : (
+                    <span className="text-lg">📿</span>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3
+                    className={`font-bold text-foreground ${amalan.completed ? "line-through" : ""
+                      }`}
+                  >
+                    {amalan.name}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {amalan.category}
+                    {amalan.time && ` • ${amalan.time}`}
+                  </p>
+                </div>
+              </Card>
             </button>
           ))}
         </div>
+
+        {/* Add Amalan Dialog */}
+        <AddAmalanDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          date={formattedDate}
+          onSuccess={() => {
+            queryClient.invalidateQueries({ queryKey: ["amalans", formattedDate] });
+          }}
+        />
       </div>
     </AppLayout>
   );

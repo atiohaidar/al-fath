@@ -2,40 +2,48 @@ import { useState, useEffect } from "react";
 import AppLayout from "@/components/layout/AppLayout";
 import {
   User as UserIcon, Settings, LogOut, ChevronRight,
-  History, Award, Calendar, Briefcase
+  History, Award, Calendar, Briefcase, LogIn
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRepositories } from "@/hooks/use-repositories";
 import { User } from "@/lib/data/interfaces";
 import { toast } from "sonner";
-
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/lib/routes";
 
 
 const menuItems = [
   {
     icon: History,
     title: "Riwayat Generasi",
-    path: "/app/profile/riwayat-gen",
+    path: ROUTES.APP.PROFILE_RIWAYAT_GEN,
+    requiresAuth: true,
   },
   {
     icon: Briefcase,
     title: "Riwayat Kepanitiaan",
-    path: "/app/profile/riwayat-panitia",
+    path: ROUTES.APP.PROFILE_RIWAYAT_PANITIA,
+    requiresAuth: true,
   },
   {
     icon: Calendar,
     title: "Riwayat Kegiatan",
-    path: "/app/profile/riwayat-kegiatan",
+    path: ROUTES.APP.PROFILE_RIWAYAT_KEGIATAN,
+    requiresAuth: true,
   },
   {
     icon: Award,
     title: "Statistik Amalan",
-    path: "/app/profile/statistik",
+    path: ROUTES.APP.PROFILE_STATISTIK,
+    requiresAuth: false,
   },
   {
     icon: Settings,
     title: "Pengaturan",
-    path: "/app/profile/settings",
+    path: ROUTES.APP.PROFILE_SETTINGS,
+    requiresAuth: false,
   },
 ];
 
@@ -49,36 +57,81 @@ const Profile = () => {
     const loadUser = async () => {
       try {
         const currentUser = await authRepository.getCurrentUser();
-        if (!currentUser) {
-          navigate("/auth");
-          return;
-        }
         setUser(currentUser);
       } catch (error) {
         console.error("Failed to load profile", error);
-        toast.error("Gagal memuat profil");
       } finally {
         setLoading(false);
       }
     };
 
     loadUser();
-  }, [authRepository, navigate]);
+  }, [authRepository]);
 
   const handleLogout = async () => {
     await authRepository.logout();
-    navigate("/auth");
+    setUser(null);
     toast.info("Anda telah logout");
   };
 
-  if (loading) return null; // Or a loading spinner
-  if (!user) return null; // Should redirect in useEffect
+  const handleLogin = () => {
+    navigate(ROUTES.AUTH);
+  };
 
+  if (loading) return null;
+
+  // Guest Mode UI
+  if (!user) {
+    return (
+      <AppLayout>
+        <div className="p-4 space-y-5">
+          {/* Guest Profile Card */}
+          <Card variant="playful" className="p-5 text-center">
+            <div className="w-20 h-20 bg-muted rounded-full mx-auto mb-3 flex items-center justify-center">
+              <UserIcon className="w-10 h-10 text-muted-foreground" />
+            </div>
+            <h2 className="font-bold text-foreground mb-1">Mode Tamu</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Login untuk mengakses fitur lengkap
+            </p>
+            <Button onClick={handleLogin} variant="gradient-primary" className="w-full">
+              <LogIn className="w-4 h-4 mr-2" />
+              Login
+            </Button>
+          </Card>
+
+          {/* Guest Menu - Limited Access */}
+          <div className="space-y-2">
+            {menuItems
+              .filter((item) => !item.requiresAuth)
+              .map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link key={item.path} to={item.path}>
+                    <Card variant="playful" className="p-4 flex items-center gap-4">
+                      <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-foreground" />
+                      </div>
+                      <span className="flex-1 font-semibold text-foreground">
+                        {item.title}
+                      </span>
+                      <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                    </Card>
+                  </Link>
+                );
+              })}
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  // Logged-in User UI
   return (
     <AppLayout>
       <div className="p-4 space-y-5">
         {/* Profile Card */}
-        <div className="card-pop p-5 relative overflow-hidden">
+        <Card variant="playful" className="p-5 relative overflow-hidden">
           {/* Decorative assets */}
           <img
             src="/assets/playful/Star/Kuning.png"
@@ -109,60 +162,58 @@ const Profile = () => {
                 {user.nama}
               </h1>
               <p className="text-sm text-muted-foreground">{user.nim}</p>
-              <span className="inline-block mt-2 px-3 py-1 gradient-green border-playful text-[10px] font-bold rounded-full text-success-foreground">
+              <Badge variant="playful-green" className="mt-2">
                 {user.tingkatKader || "Kader Muda"}
-              </span>
+              </Badge>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Info Cards */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="card-pop p-4">
+          <Card variant="playful" className="p-4">
             <p className="text-[10px] text-muted-foreground font-medium mb-1">Departemen</p>
             <p className="font-bold text-foreground text-sm">{user.departemen || "-"}</p>
-          </div>
-          <div className="card-pop p-4">
+          </Card>
+          <Card variant="playful" className="p-4">
             <p className="text-[10px] text-muted-foreground font-medium mb-1">Divisi</p>
             <p className="font-bold text-foreground text-sm">{user.divisi || "-"}</p>
-          </div>
-          <div className="card-pop p-4">
+          </Card>
+          <Card variant="playful" className="p-4">
             <p className="text-[10px] text-muted-foreground font-medium mb-1">Generasi</p>
             <p className="font-bold text-foreground text-sm">{user.generasi || "-"}</p>
-          </div>
-          <div className="card-pop p-4">
+          </Card>
+          <Card variant="playful" className="p-4">
             <p className="text-[10px] text-muted-foreground font-medium mb-1">Jabatan</p>
             <p className="font-bold text-foreground text-sm">{user.jabatan || "-"}</p>
-          </div>
+          </Card>
         </div>
 
         {/* Menu List */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           {menuItems.map((item) => {
             const Icon = item.icon;
             return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="card-pop p-4 flex items-center gap-4"
-              >
-                <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-foreground" />
-                </div>
-                <span className="flex-1 font-semibold text-foreground">{item.title}</span>
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              <Link key={item.path} to={item.path} className="block">
+                <Card variant="playful" className="p-4 flex items-center gap-4">
+                  <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-foreground" />
+                  </div>
+                  <span className="flex-1 font-semibold text-foreground">{item.title}</span>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                </Card>
               </Link>
             );
           })}
         </div>
 
         {/* Logout Button */}
-        <button onClick={handleLogout} className="w-full card-pop p-4 flex items-center gap-4 text-accent">
-          <div className="w-10 h-10 gradient-red rounded-xl border-playful flex items-center justify-center">
-            <LogOut className="w-5 h-5 text-accent-foreground" />
+        <Button onClick={handleLogout} variant="gradient-red" className="w-full justify-start gap-4">
+          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+            <LogOut className="w-5 h-5" />
           </div>
           <span className="font-bold">Keluar</span>
-        </button>
+        </Button>
       </div>
     </AppLayout>
   );

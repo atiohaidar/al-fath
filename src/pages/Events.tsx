@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MobileLayout from "@/components/layout/MobileLayout";
+import AppLayout from "@/components/layout/AppLayout";
 import { Calendar, MapPin, Clock, Users, Filter } from "lucide-react";
 
 interface Event {
@@ -72,12 +72,12 @@ type StatusFilter = "all" | "soon" | "ongoing" | "done";
 const Events = () => {
   const [filter, setFilter] = useState<StatusFilter>("all");
 
-  const filteredEvents = filter === "all" 
-    ? mockEvents 
+  const filteredEvents = filter === "all"
+    ? mockEvents
     : mockEvents.filter((e) => e.status === filter);
 
   return (
-    <MobileLayout>
+    <AppLayout>
       <div className="p-4 space-y-5">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -98,11 +98,10 @@ const Events = () => {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key as StatusFilter)}
-              className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${
-                filter === tab.key
-                  ? "gradient-yellow border-playful shadow-playful-sm"
-                  : "bg-muted text-muted-foreground"
-              }`}
+              className={`px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${filter === tab.key
+                ? "gradient-yellow border-playful shadow-playful-sm"
+                : "bg-muted text-muted-foreground"
+                }`}
             >
               {tab.label}
             </button>
@@ -157,7 +156,7 @@ const Events = () => {
           ))}
         </div>
       </div>
-    </MobileLayout>
+    </AppLayout>
   );
 };
 

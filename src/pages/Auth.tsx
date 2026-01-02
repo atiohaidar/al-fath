@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Eye, EyeOff, LogIn, UserPlus, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useRepositories } from "@/hooks/use-repositories";
 
 type AuthMode = "login" | "register";
 
@@ -9,6 +10,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<AuthMode>("login");
   const [showPassword, setShowPassword] = useState(false);
+  const { authRepository } = useRepositories();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,16 +18,41 @@ const Auth = () => {
     nim: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Mock auth - nanti akan diganti dengan backend
-    if (mode === "login") {
-      toast.success("Berhasil masuk!");
-      navigate("/");
-    } else {
-      toast.success("Registrasi berhasil! Silakan masuk.");
-      setMode("login");
+
+    try {
+      if (mode === "login") {
+        const user = await authRepository.login(formData.email, formData.password);
+        if (user) {
+          // ensure id is treated as number for setSession
+          const userId = user.id ? parseInt(user.id) : 0;
+          await (authRepository as any).setSession(userId);
+          toast.success("Berhasil masuk!");
+          navigate("/app");
+        } else {
+          toast.error("Email atau password salah");
+        }
+      } else {
+        await authRepository.register({
+          email: formData.email,
+          password: formData.password,
+          nama: formData.nama,
+          nim: formData.nim,
+          // Default values for now, can be updated in profile settings later
+          divisi: "Anggota Baru",
+          departemen: "Kaderisasi",
+          tingkatKader: "Kader Muda",
+          generasi: "Gen 13",
+          jabatan: "Anggota",
+          avatar: null
+        });
+        toast.success("Registrasi berhasil! Silakan masuk.");
+        setMode("login");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Terjadi kesalahan");
     }
   };
 
@@ -33,34 +60,30 @@ const Auth = () => {
     <div className="min-h-screen p-4 flex flex-col justify-center max-w-md mx-auto">
       {/* Logo/Header */}
       <div className="text-center mb-8">
-        <div className="w-24 h-24 gradient-yellow border-playful-thick rounded-3xl mx-auto mb-4 flex items-center justify-center shadow-playful-lg relative">
-          <Sparkles className="w-12 h-12 text-alfath-dark" />
-          <div className="absolute -right-2 -top-2 w-8 h-8 bg-alfath-red rounded-full border-playful" />
-          <div className="absolute -left-2 -bottom-2 w-6 h-6 bg-alfath-blue rounded-lg border-playful rotate-12" />
+        <div className="w-24 h-24 bg-card border-playful-thick rounded-3xl mx-auto mb-4 flex items-center justify-center shadow-playful-lg relative overflow-hidden">
+          <img src="/logo.png" alt="Logo Al-Fath" className="w-full h-full object-contain p-2" />
         </div>
         <h1 className="text-3xl font-extrabold text-foreground">Al Fath App</h1>
-        <p className="text-muted-foreground mt-1">Dakwah in an Aesthetic Way</p>
+        <p className="text-muted-foreground mt-1">Lebih Dekat, Lebih Bersahabat</p>
       </div>
 
       {/* Toggle Tabs */}
       <div className="flex gap-2 p-1 bg-muted rounded-2xl mb-6">
         <button
           onClick={() => setMode("login")}
-          className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${
-            mode === "login"
-              ? "gradient-yellow border-playful shadow-playful-sm"
-              : "text-muted-foreground"
-          }`}
+          className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${mode === "login"
+            ? "gradient-primary border-playful shadow-playful-sm text-primary-foreground"
+            : "text-muted-foreground hover:text-foreground"
+            }`}
         >
           Masuk
         </button>
         <button
           onClick={() => setMode("register")}
-          className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${
-            mode === "register"
-              ? "gradient-yellow border-playful shadow-playful-sm"
-              : "text-muted-foreground"
-          }`}
+          className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${mode === "register"
+            ? "gradient-primary border-playful shadow-playful-sm text-primary-foreground"
+            : "text-muted-foreground hover:text-foreground"
+            }`}
         >
           Daftar
         </button>
@@ -136,7 +159,7 @@ const Auth = () => {
 
         <button
           type="submit"
-          className="w-full py-4 gradient-yellow border-playful-thick rounded-xl font-bold text-lg flex items-center justify-center gap-2 btn-pop shadow-playful text-alfath-dark"
+          className="w-full py-4 gradient-primary border-playful-thick rounded-xl font-bold text-lg flex items-center justify-center gap-2 btn-pop shadow-playful text-primary-foreground"
         >
           {mode === "login" ? (
             <>

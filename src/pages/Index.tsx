@@ -1,4 +1,4 @@
-import MobileLayout from "@/components/layout/MobileLayout";
+import AppLayout from "@/components/layout/AppLayout";
 import GreetingCard from "@/components/home/GreetingCard";
 import QuickStats from "@/components/home/QuickStats";
 import QuickActions from "@/components/home/QuickActions";
@@ -38,7 +38,7 @@ const mockEvents = [
 
 const Index = () => {
   return (
-    <MobileLayout>
+    <AppLayout>
       <div className="p-4 space-y-6">
         <GreetingCard
           name={mockUser.name}
@@ -56,7 +56,7 @@ const Index = () => {
 
         <UpcomingEvent events={mockEvents} />
       </div>
-    </MobileLayout>
+    </AppLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import MobileLayout from "@/components/layout/MobileLayout";
+import AppLayout from "@/components/layout/AppLayout";
 import { ChevronRight, Target, Users, Building2, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import InfoCard from "@/components/ui/InfoCard";
@@ -37,7 +37,7 @@ const menuItems = [
 
 const Info = () => {
   return (
-    <MobileLayout>
+    <AppLayout>
       <div className="p-4 space-y-6 relative">
         {/* Decorative stars */}
         <img
@@ -87,7 +87,7 @@ const Info = () => {
 
             <div className="relative z-10">
               <h2 className="text-xl font-extrabold text-foreground leading-tight">
-                "Dakwah in an Aesthetic Way"
+                "Lebih Dekat, Lebih Bersahabat"
               </h2>
               <p className="text-sm text-muted-foreground mt-2">
                 Berdakwah dengan cara yang indah dan menarik
@@ -162,7 +162,7 @@ const Info = () => {
           className="absolute bottom-48 -left-2 w-8 h-8 opacity-40 rotate-12 pointer-events-none"
         />
       </div>
-    </MobileLayout>
+    </AppLayout>
   );
 };
 

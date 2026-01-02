@@ -1,4 +1,4 @@
-import MobileLayout from "@/components/layout/MobileLayout";
+import AppLayout from "@/components/layout/AppLayout";
 import { Trophy, Medal, Star, TrendingUp } from "lucide-react";
 
 interface KaderRank {
@@ -52,7 +52,7 @@ const KaderOfMonth = () => {
   const currentMonth = new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" });
 
   return (
-    <MobileLayout>
+    <AppLayout>
       <div className="p-4 space-y-5">
         {/* Header */}
         <div className="text-center">
@@ -146,7 +146,7 @@ const KaderOfMonth = () => {
           ))}
         </div>
       </div>
-    </MobileLayout>
+    </AppLayout>
   );
 };
 

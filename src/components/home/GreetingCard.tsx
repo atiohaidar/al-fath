@@ -15,35 +15,35 @@ const GreetingCard = ({ name, tingkatKader }: GreetingCardProps) => {
   };
 
   return (
-    <div className="gradient-yellow border-playful shadow-playful-lg rounded-3xl p-5 relative overflow-hidden">
+    <div className="card-greeting p-5 relative overflow-hidden">
       {/* Decorative star elements */}
       <img
         src="/assets/playful/Star/Merah.png"
         alt=""
-        className="absolute -right-4 -top-4 w-16 h-16 opacity-80 rotate-12 pointer-events-none"
+        className="absolute -right-4 -top-4 w-16 h-16 opacity-80 rotate-12 pointer-events-none brightness-0 invert"
       />
       <img
         src="/assets/playful/Star/Biru.png"
         alt=""
-        className="absolute right-10 top-8 w-10 h-10 opacity-70 -rotate-6 pointer-events-none"
+        className="absolute right-10 top-8 w-10 h-10 opacity-70 -rotate-6 pointer-events-none brightness-0 invert"
       />
       <img
         src="/assets/playful/Star/Hijau.png"
         alt=""
-        className="absolute -right-2 bottom-2 w-12 h-12 opacity-70 rotate-45 pointer-events-none"
+        className="absolute -right-2 bottom-2 w-12 h-12 opacity-70 rotate-45 pointer-events-none brightness-0 invert"
       />
 
       <div className="relative z-10">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-alfath-dark/70 text-sm font-medium flex items-center gap-1">
+            <p className="text-primary-foreground/90 text-sm font-medium flex items-center gap-1">
               <Sparkles className="w-4 h-4" />
               {getTimeGreeting()}
             </p>
-            <h1 className="text-2xl font-extrabold text-alfath-dark mt-1">
+            <h1 className="text-2xl font-extrabold text-white mt-1">
               {name}
             </h1>
-            <span className="inline-block mt-2 px-3 py-1 bg-alfath-dark text-primary text-xs font-bold rounded-full">
+            <span className="inline-block mt-2 px-3 py-1 bg-white/20 text-white backdrop-blur-sm text-xs font-bold rounded-full border border-white/20">
               {tingkatKader}
             </span>
           </div>

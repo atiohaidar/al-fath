@@ -17,16 +17,16 @@ const SectionLabel = ({
     variant = "primary",
 }: SectionLabelProps) => {
     const variantClasses = {
-        primary: "bg-alfath-yellow text-alfath-dark",
-        secondary: "bg-alfath-blue text-white",
-        accent: "bg-alfath-red text-white",
-        success: "bg-alfath-green text-white",
+        primary: "bg-primary text-primary-foreground", // Red in the new theme
+        secondary: "bg-secondary text-secondary-foreground", // Blue
+        accent: "bg-accent text-accent-foreground", // Yellow
+        success: "bg-success text-success-foreground", // Green
     };
 
     return (
         <div
             className={cn(
-                "inline-block px-4 py-1.5 rounded-full border-2 border-alfath-dark font-bold text-sm shadow-playful-sm",
+                "inline-block px-5 py-2 rounded-full border-3 border-alfath-dark font-extrabold text-sm shadow-pop-sm uppercase tracking-wider",
                 variantClasses[variant],
                 className
             )}

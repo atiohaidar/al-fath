@@ -8,6 +8,10 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { Loader2 } from "lucide-react";
 
 // Lazy load pages for performance
+// Lazy load Landing Page
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+
+// Lazy load pages for performance
 const Index = lazy(() => import("./pages/Index"));
 const AmalanYaumiah = lazy(() => import("./pages/AmalanYaumiah"));
 const Events = lazy(() => import("./pages/Events"));
@@ -41,14 +45,21 @@ const App = () => (
         <BrowserRouter>
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
-              <Route path="/" element={<Index />} />
+              {/* Public Route */}
+              <Route path="/" element={<LandingPage />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/amalan" element={<AmalanYaumiah />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/info" element={<Info />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/kader-of-month" element={<KaderOfMonth />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
+              {/* Protected / Dashboard Routes */}
+              <Route path="/app">
+                <Route index element={<Index />} />
+                <Route path="amalan" element={<AmalanYaumiah />} />
+                <Route path="events" element={<Events />} />
+                <Route path="info" element={<Info />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="kader-of-month" element={<KaderOfMonth />} />
+              </Route>
+
+              {/* Catch-all */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -1,5 +1,6 @@
 import { MapPin, Clock, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 interface Event {
   id: string;
@@ -24,7 +25,14 @@ const UpcomingEvent = ({ events }: UpcomingEventProps) => {
   return (
     <div className="space-y-3">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg font-bold text-foreground">Event Mendatang</h2>
+        <div className="flex items-center gap-2">
+          <SectionLabel variant="secondary">Event Mendatang</SectionLabel>
+          <img
+            src="/assets/playful/Star/Biru.png"
+            alt=""
+            className="w-6 h-6 opacity-70"
+          />
+        </div>
         <Link to="/events" className="text-sm font-semibold text-secondary flex items-center">
           Lihat Semua <ChevronRight className="w-4 h-4" />
         </Link>

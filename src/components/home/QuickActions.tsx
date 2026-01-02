@@ -1,5 +1,6 @@
 import { ClipboardCheck, CalendarCheck, Users, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const actions = [
   {
@@ -35,7 +36,14 @@ const actions = [
 const QuickActions = () => {
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-bold text-foreground">Menu Cepat</h2>
+      <div className="flex items-center gap-2">
+        <SectionLabel variant="primary">Menu Cepat</SectionLabel>
+        <img
+          src="/assets/playful/Star/Kuning.png"
+          alt=""
+          className="w-6 h-6 opacity-80"
+        />
+      </div>
       <div className="grid grid-cols-2 gap-3">
         {actions.map((action) => {
           const Icon = action.icon;

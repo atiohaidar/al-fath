@@ -15,12 +15,24 @@ const GreetingCard = ({ name, tingkatKader }: GreetingCardProps) => {
   };
 
   return (
-    <div className="gradient-yellow border-playful-thick shadow-playful-lg rounded-3xl p-5 relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute -right-4 -top-4 w-20 h-20 bg-alfath-red rounded-full opacity-80" />
-      <div className="absolute right-8 top-8 w-8 h-8 bg-alfath-blue rounded-full" />
-      <div className="absolute -right-2 bottom-4 w-12 h-12 bg-alfath-green rounded-lg rotate-12" />
-      
+    <div className="gradient-yellow border-playful shadow-playful-lg rounded-3xl p-5 relative overflow-hidden">
+      {/* Decorative star elements */}
+      <img
+        src="/assets/playful/Star/Merah.png"
+        alt=""
+        className="absolute -right-4 -top-4 w-16 h-16 opacity-80 rotate-12 pointer-events-none"
+      />
+      <img
+        src="/assets/playful/Star/Biru.png"
+        alt=""
+        className="absolute right-10 top-8 w-10 h-10 opacity-70 -rotate-6 pointer-events-none"
+      />
+      <img
+        src="/assets/playful/Star/Hijau.png"
+        alt=""
+        className="absolute -right-2 bottom-2 w-12 h-12 opacity-70 rotate-45 pointer-events-none"
+      />
+
       <div className="relative z-10">
         <div className="flex justify-between items-start">
           <div>
@@ -45,3 +57,4 @@ const GreetingCard = ({ name, tingkatKader }: GreetingCardProps) => {
 };
 
 export default GreetingCard;
+

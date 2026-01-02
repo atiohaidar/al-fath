@@ -18,16 +18,15 @@ const BottomNav = () => {
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
-          
+
           return (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all duration-200 ${
-                isActive 
-                  ? "gradient-yellow border-playful shadow-playful-sm scale-105" 
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all duration-200 ${isActive
+                ? "gradient-yellow border-playful shadow-playful-sm scale-105"
+                : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               <Icon className={`w-5 h-5 ${isActive ? "text-alfath-dark" : ""}`} />
               <span className={`text-[10px] font-semibold ${isActive ? "text-alfath-dark" : ""}`}>

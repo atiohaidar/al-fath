@@ -50,8 +50,22 @@ const Profile = () => {
       <div className="p-4 space-y-5">
         {/* Profile Card */}
         <div className="card-pop p-5 relative overflow-hidden">
-          <div className="absolute -right-8 -top-8 w-32 h-32 gradient-yellow rounded-full opacity-50" />
-          <div className="absolute right-4 top-20 w-8 h-8 bg-alfath-blue rounded-full opacity-70" />
+          {/* Decorative assets */}
+          <img
+            src="/assets/playful/Star/Kuning.png"
+            alt=""
+            className="absolute -right-8 -top-8 w-32 h-32 opacity-40 rotate-12 pointer-events-none"
+          />
+          <img
+            src="/assets/playful/Star/Biru.png"
+            alt=""
+            className="absolute right-4 top-20 w-10 h-10 opacity-60 -rotate-6 pointer-events-none"
+          />
+          <img
+            src="/assets/playful/Star/Merah.png"
+            alt=""
+            className="absolute -right-2 top-10 w-8 h-8 opacity-50 rotate-45 pointer-events-none"
+          />
 
           <div className="relative z-10 flex items-center gap-4">
             <div className="w-20 h-20 gradient-yellow border-playful-thick rounded-2xl flex items-center justify-center shadow-playful">

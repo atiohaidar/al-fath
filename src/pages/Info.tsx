@@ -38,9 +38,13 @@ const Info = () => {
     <MobileLayout>
       <div className="p-4 space-y-5">
         {/* Header */}
-        <div>
-          <h1 className="text-xl font-extrabold text-foreground">Info Al Fath</h1>
-          <p className="text-sm text-muted-foreground">Generasi 12 - 2025/2026</p>
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="Logo" className="w-12 h-12 object-contain" />
+          <div>
+            <h1 className="text-xl font-extrabold text-foreground">Info Al Fath</h1>
+            <p className="text-sm text-muted-foreground">Generasi 12 - 2025/2026</p>
+          </div>
         </div>
 
         {/* Banner */}
@@ -48,7 +52,7 @@ const Info = () => {
           <div className="absolute -right-6 -top-6 w-24 h-24 bg-alfath-red rounded-full opacity-70" />
           <div className="absolute right-10 top-10 w-10 h-10 bg-alfath-blue rounded-full" />
           <div className="absolute -right-2 bottom-6 w-14 h-14 bg-alfath-green rounded-lg rotate-12 opacity-80" />
-          
+
           <div className="relative z-10">
             <p className="text-alfath-dark/70 text-sm font-medium">Slogan</p>
             <h2 className="text-2xl font-extrabold text-alfath-dark mt-1 leading-tight">

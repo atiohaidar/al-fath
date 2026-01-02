@@ -13,7 +13,7 @@ const mockRankings: KaderRank[] = [
   { rank: 1, name: "Fatimah Azzahra", divisi: "PSDM", score: 98 },
   { rank: 2, name: "Muhammad Rizki", divisi: "Kaderisasi", score: 95 },
   { rank: 3, name: "Aisyah Putri", divisi: "Medkominfo", score: 92 },
-  { rank: 4, name: "Ahmad Fauzan", divisi: "Medkominfo", score: 88 },
+  { rank: 4, name: "Tio Haidar Hanif", divisi: "Medkominfo", score: 88 },
   { rank: 5, name: "Umar Abdullah", divisi: "Syiar", score: 85 },
   { rank: 6, name: "Khadijah Sari", divisi: "Sosmas", score: 82 },
   { rank: 7, name: "Bilal Ibrahim", divisi: "PSDM", score: 80 },

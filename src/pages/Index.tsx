@@ -6,7 +6,7 @@ import UpcomingEvent from "@/components/home/UpcomingEvent";
 
 // Mock data - akan diganti dengan data dari backend nanti
 const mockUser = {
-  name: "Ahmad Fauzan",
+  name: "Tio Haidar Hanif",
   tingkatKader: "Kader Madya",
 };
 
@@ -40,20 +40,20 @@ const Index = () => {
   return (
     <MobileLayout>
       <div className="p-4 space-y-6">
-        <GreetingCard 
-          name={mockUser.name} 
-          tingkatKader={mockUser.tingkatKader} 
+        <GreetingCard
+          name={mockUser.name}
+          tingkatKader={mockUser.tingkatKader}
         />
-        
-        <QuickStats 
+
+        <QuickStats
           amalanCompleted={mockStats.amalanCompleted}
           amalanTotal={mockStats.amalanTotal}
           upcomingEvents={mockStats.upcomingEvents}
           kaderRank={mockStats.kaderRank}
         />
-        
+
         <QuickActions />
-        
+
         <UpcomingEvent events={mockEvents} />
       </div>
     </MobileLayout>

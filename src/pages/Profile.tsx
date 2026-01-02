@@ -1,12 +1,12 @@
 import MobileLayout from "@/components/layout/MobileLayout";
-import { 
-  User, Settings, LogOut, ChevronRight, 
-  History, Award, Calendar, Briefcase 
+import {
+  User, Settings, LogOut, ChevronRight,
+  History, Award, Calendar, Briefcase
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const mockProfile = {
-  namaLengkap: "Ahmad Fauzan Hakim",
+  namaLengkap: "Tio Haidar Hanif Hakim",
   nim: "22106050001",
   divisi: "Medkominfo",
   departemen: "Media & Komunikasi",
@@ -52,7 +52,7 @@ const Profile = () => {
         <div className="card-pop p-5 relative overflow-hidden">
           <div className="absolute -right-8 -top-8 w-32 h-32 gradient-yellow rounded-full opacity-50" />
           <div className="absolute right-4 top-20 w-8 h-8 bg-alfath-blue rounded-full opacity-70" />
-          
+
           <div className="relative z-10 flex items-center gap-4">
             <div className="w-20 h-20 gradient-yellow border-playful-thick rounded-2xl flex items-center justify-center shadow-playful">
               {mockProfile.avatar ? (

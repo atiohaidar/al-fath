@@ -21,6 +21,7 @@ const KaderOfMonth = lazy(() => import("./pages/KaderOfMonth"));
 const StatistikAmalan = lazy(() => import("./pages/StatistikAmalan"));
 const Auth = lazy(() => import("./pages/Auth"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const DecorativePreview = lazy(() => import("./pages/DecorativePreview"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,6 +61,9 @@ const App = () => (
                 <Route path="profile/statistik" element={<StatistikAmalan />} />
                 <Route path="kader-of-month" element={<KaderOfMonth />} />
               </Route>
+
+              {/* Dev Tools */}
+              <Route path="/preview/decorations" element={<DecorativePreview />} />
 
               {/* Catch-all */}
               <Route path="*" element={<NotFound />} />

@@ -27,7 +27,8 @@ const DesktopLayout = ({ children, showDecorations = true }: DesktopLayoutProps)
             {showDecorations && <DecorativeElements variant="scattered" />}
 
             {/* Sidebar */}
-            <aside className="w-64 h-screen sticky top-0 border-r-2 border-alfath-dark bg-card z-20 flex flex-col p-6 shadow-playful">
+            <aside className="w-64 h-screen sticky top-0 border-r-2 border-alfath-dark bg-card/50 backdrop-blur-md z-20 flex flex-col p-6 shadow-playful">
+
                 <div className="flex items-center gap-3 mb-10">
                     <div className="w-10 h-10 rounded-xl bg-card border-playful flex items-center justify-center p-1">
                         <img src="/logo.png" alt="AF" className="w-full h-full object-contain" />
@@ -66,7 +67,9 @@ const DesktopLayout = ({ children, showDecorations = true }: DesktopLayoutProps)
             </aside>
 
             {/* Main Content */}
+
             <main className="flex-1 relative z-10 p-8 overflow-y-auto h-screen">
+
                 <div className="max-w-5xl mx-auto">
                     {children}
                 </div>

@@ -40,4 +40,22 @@ export class LocalAuthRepository implements IAuthRepository {
     async setSession(userId: number) {
         localStorage.setItem('currentUserId', userId.toString());
     }
+
+    async updateUser(userId: number, updates: Partial<User>): Promise<void> {
+        await db.users.update(userId, updates);
+    }
+
+    async updatePassword(userId: number, oldPassword: string, newPassword: string): Promise<boolean> {
+        const user = await db.users.get(userId);
+        if (!user) return false;
+
+        // Verify old password
+        if (user.password !== oldPassword) {
+            return false;
+        }
+
+        // Update to new password
+        await db.users.update(userId, { password: newPassword });
+        return true;
+    }
 }

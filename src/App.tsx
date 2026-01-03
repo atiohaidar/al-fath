@@ -17,6 +17,7 @@ const AmalanYaumiah = lazy(() => import("./pages/AmalanYaumiah"));
 const Events = lazy(() => import("./pages/Events"));
 const Info = lazy(() => import("./pages/Info"));
 const Profile = lazy(() => import("./pages/Profile"));
+const ProfileSettings = lazy(() => import("./pages/ProfileSettings"));
 const KaderOfMonth = lazy(() => import("./pages/KaderOfMonth"));
 const StatistikAmalan = lazy(() => import("./pages/StatistikAmalan"));
 const Auth = lazy(() => import("./pages/Auth"));
@@ -58,6 +59,7 @@ const App = () => (
                 <Route path="events" element={<Events />} />
                 <Route path="info" element={<Info />} />
                 <Route path="profile" element={<Profile />} />
+                <Route path="profile/settings" element={<ProfileSettings />} />
                 <Route path="profile/statistik" element={<StatistikAmalan />} />
                 <Route path="kader-of-month" element={<KaderOfMonth />} />
               </Route>

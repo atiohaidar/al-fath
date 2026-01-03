@@ -42,7 +42,6 @@ const Auth = () => {
           nama: formData.nama,
           nim: formData.nim,
           divisi: "Anggota Baru",
-          departemen: "Kaderisasi",
           tingkatKader: "Kader Muda",
           generasi: "Gen 13",
           jabatan: "Anggota",

@@ -171,22 +171,22 @@ const Profile = () => {
 
         {/* Info Cards */}
         <div className="grid grid-cols-2 gap-3">
-          <Card variant="playful" className="p-4">
-            <p className="text-[10px] text-muted-foreground font-medium mb-1">Departemen</p>
-            <p className="font-bold text-foreground text-sm">{user.departemen || "-"}</p>
-          </Card>
-          <Card variant="playful" className="p-4">
+          <div className="card-pop p-4">
             <p className="text-[10px] text-muted-foreground font-medium mb-1">Divisi</p>
             <p className="font-bold text-foreground text-sm">{user.divisi || "-"}</p>
-          </Card>
-          <Card variant="playful" className="p-4">
+          </div>
+          <div className="card-pop p-4">
+            <p className="text-[10px] text-muted-foreground font-medium mb-1">Tingkat Kader</p>
+            <p className="font-bold text-foreground text-sm">{user.tingkatKader || "Kader Muda"}</p>
+          </div>
+          <div className="card-pop p-4">
             <p className="text-[10px] text-muted-foreground font-medium mb-1">Generasi</p>
             <p className="font-bold text-foreground text-sm">{user.generasi || "-"}</p>
-          </Card>
-          <Card variant="playful" className="p-4">
+          </div>
+          <div className="card-pop p-4">
             <p className="text-[10px] text-muted-foreground font-medium mb-1">Jabatan</p>
             <p className="font-bold text-foreground text-sm">{user.jabatan || "-"}</p>
-          </Card>
+          </div>
         </div>
 
         {/* Menu List */}

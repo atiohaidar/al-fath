@@ -38,4 +38,6 @@ export interface IAuthRepository {
     register(user: User): Promise<User>;
     getCurrentUser(): Promise<User | null>;
     logout(): Promise<void>;
+    updateUser(userId: number, updates: Partial<User>): Promise<void>;
+    updatePassword(userId: number, oldPassword: string, newPassword: string): Promise<boolean>;
 }

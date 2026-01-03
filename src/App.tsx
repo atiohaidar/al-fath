@@ -27,6 +27,13 @@ const Auth = lazy(() => import("./pages/Auth"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const DecorativePreview = lazy(() => import("./pages/DecorativePreview"));
 
+// Profile Riwayat
+const RiwayatGenerasi = lazy(() => import("./pages/profile/RiwayatGenerasi"));
+const RiwayatKepanitiaan = lazy(() => import("./pages/profile/RiwayatKepanitiaan"));
+const RiwayatKegiatan = lazy(() => import("./pages/profile/RiwayatKegiatan"));
+
+import AuthGuard from "@/components/AuthGuard";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -57,9 +64,11 @@ const App = () => (
 
               {/* Protected / Dashboard Routes - With Persistent Layout */}
               <Route path="/app" element={
-                <AppLayout>
-                  <Outlet />
-                </AppLayout>
+                <AuthGuard>
+                  <AppLayout>
+                    <Outlet />
+                  </AppLayout>
+                </AuthGuard>
               }>
                 <Route index element={<Index />} />
                 <Route path="amalan" element={<AmalanYaumiah />} />
@@ -70,11 +79,18 @@ const App = () => (
                 <Route path="profile/settings" element={<ProfileSettings />} />
                 <Route path="profile/id-card" element={<MyIDCard />} />
                 <Route path="profile/statistik" element={<StatistikAmalan />} />
+                <Route path="profile/riwayat-gen" element={<RiwayatGenerasi />} />
+                <Route path="profile/riwayat-panitia" element={<RiwayatKepanitiaan />} />
+                <Route path="profile/riwayat-kegiatan" element={<RiwayatKegiatan />} />
                 <Route path="kader-of-month" element={<KaderOfMonth />} />
               </Route>
 
               {/* Protected Routes - Standalone / Fullscreen */}
-              <Route path="/app/events/:id/scan" element={<EventScanner />} />
+              <Route path="/app/events/:id/scan" element={
+                <AuthGuard>
+                  <EventScanner />
+                </AuthGuard>
+              } />
 
               {/* Dev Tools */}
               <Route path="/preview/decorations" element={<DecorativePreview />} />

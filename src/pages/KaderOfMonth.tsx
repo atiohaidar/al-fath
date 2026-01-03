@@ -1,26 +1,9 @@
-import { Trophy, Medal, Star, TrendingUp } from "lucide-react";
-import AppLayout from "@/components/layout/AppLayout"; // Wait, I want to REMOVE this. I made a mistake in thought process. fixing in content.
-
-interface KaderRank {
-  rank: number;
-  name: string;
-  divisi: string;
-  score: number;
-  avatar?: string;
-}
-
-const mockRankings: KaderRank[] = [
-  { rank: 1, name: "Fatimah Azzahra", divisi: "PSDM", score: 98 },
-  { rank: 2, name: "Muhammad Rizki", divisi: "Kaderisasi", score: 95 },
-  { rank: 3, name: "Aisyah Putri", divisi: "Medkominfo", score: 92 },
-  { rank: 4, name: "Tio Haidar Hanif", divisi: "Medkominfo", score: 88 },
-  { rank: 5, name: "Umar Abdullah", divisi: "Syiar", score: 85 },
-  { rank: 6, name: "Khadijah Sari", divisi: "Sosmas", score: 82 },
-  { rank: 7, name: "Bilal Ibrahim", divisi: "PSDM", score: 80 },
-  { rank: 8, name: "Maryam Husna", divisi: "Kaderisasi", score: 78 },
-  { rank: 9, name: "Yusuf Hakim", divisi: "Syiar", score: 75 },
-  { rank: 10, name: "Sarah Amelia", divisi: "Sosmas", score: 72 },
-];
+import { useState, useEffect } from "react";
+import { Trophy, Medal, Star, TrendingUp, ChevronLeft } from "lucide-react";
+import { useRepositories } from "@/hooks/use-repositories";
+import { KaderRank, User } from "@/lib/data/interfaces";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const getRankStyle = (rank: number) => {
   switch (rank) {
@@ -49,14 +32,43 @@ const getRankIcon = (rank: number) => {
 };
 
 const KaderOfMonth = () => {
+  const navigate = useNavigate();
+  const { authRepository } = useRepositories();
+  const [rankings, setRankings] = useState<KaderRank[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
   const currentMonth = new Date().toLocaleDateString("id-ID", { month: "long", year: "numeric" });
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [rankData, user] = await Promise.all([
+        authRepository.getKaderRankings(),
+        authRepository.getCurrentUser()
+      ]);
+      setRankings(rankData);
+      setCurrentUser(user);
+      setLoading(false);
+    };
+    loadData();
+  }, [authRepository]);
+
+  if (loading || rankings.length < 3) return null;
+
+  const userRankIndex = currentUser ? rankings.findIndex(r => r.name === currentUser.nama) : -1;
+  const userScore = userRankIndex !== -1 ? rankings[userRankIndex].score : 0;
 
   return (
     <div className="p-4 space-y-5">
       {/* Header */}
-      <div className="text-center">
-        <h1 className="text-xl font-extrabold text-foreground">Kader of The Month</h1>
-        <p className="text-sm text-muted-foreground">{currentMonth}</p>
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="border-playful-sm">
+          <ChevronLeft className="w-6 h-6" />
+        </Button>
+        <div className="flex-1 text-center pr-10">
+          <h1 className="text-xl font-extrabold text-foreground">Kader of The Month</h1>
+          <p className="text-sm text-muted-foreground">{currentMonth}</p>
+        </div>
       </div>
 
       {/* Top 3 Podium */}
@@ -66,14 +78,14 @@ const KaderOfMonth = () => {
           <div className="w-16 h-16 bg-gray-200 border-playful rounded-2xl flex items-center justify-center mb-2">
             <span className="text-2xl">👤</span>
           </div>
-          <div className="w-20 h-20 gradient-blue border-playful rounded-t-xl flex flex-col items-center justify-center">
-            <Medal className="w-6 h-6 text-gray-600 mb-1" />
-            <span className="text-xs font-bold text-secondary-foreground">2nd</span>
+          <div className="w-20 h-20 bg-slate-300 border-playful rounded-t-xl flex flex-col items-center justify-center">
+            <Medal className="w-6 h-6 text-slate-600 mb-1" />
+            <span className="text-xs font-bold text-slate-700">2nd</span>
           </div>
           <p className="text-xs font-bold text-foreground mt-2 text-center max-w-16 truncate">
-            {mockRankings[1].name.split(" ")[0]}
+            {rankings[1].name.split(" ")[0]}
           </p>
-          <p className="text-[10px] text-muted-foreground">{mockRankings[1].score} pts</p>
+          <p className="text-[10px] text-muted-foreground">{rankings[1].score} pts</p>
         </div>
 
         {/* 1st Place */}
@@ -87,9 +99,9 @@ const KaderOfMonth = () => {
             <span className="text-sm font-extrabold text-alfath-dark">1st</span>
           </div>
           <p className="text-sm font-extrabold text-foreground mt-2 text-center">
-            {mockRankings[0].name.split(" ")[0]}
+            {rankings[0].name.split(" ")[0]}
           </p>
-          <p className="text-xs text-muted-foreground">{mockRankings[0].score} pts</p>
+          <p className="text-xs text-muted-foreground">{rankings[0].score} pts</p>
         </div>
 
         {/* 3rd Place */}
@@ -97,14 +109,14 @@ const KaderOfMonth = () => {
           <div className="w-16 h-16 bg-orange-200 border-playful rounded-2xl flex items-center justify-center mb-2">
             <span className="text-2xl">👤</span>
           </div>
-          <div className="w-20 h-16 gradient-red border-playful rounded-t-xl flex flex-col items-center justify-center">
-            <Medal className="w-6 h-6 text-orange-600 mb-1" />
-            <span className="text-xs font-bold text-accent-foreground">3rd</span>
+          <div className="w-20 h-16 bg-orange-300 border-playful rounded-t-xl flex flex-col items-center justify-center">
+            <Medal className="w-6 h-6 text-orange-700 mb-1" />
+            <span className="text-xs font-bold text-orange-800">3rd</span>
           </div>
           <p className="text-xs font-bold text-foreground mt-2 text-center max-w-16 truncate">
-            {mockRankings[2].name.split(" ")[0]}
+            {rankings[2].name.split(" ")[0]}
           </p>
-          <p className="text-xs text-muted-foreground">{mockRankings[2].score} pts</p>
+          <p className="text-xs text-muted-foreground">{rankings[2].score} pts</p>
         </div>
       </div>
 
@@ -116,28 +128,30 @@ const KaderOfMonth = () => {
           </div>
           <div className="flex-1">
             <p className="text-sm text-success-foreground/80">Posisi Kamu</p>
-            <p className="text-xl font-extrabold text-success-foreground">#4 dari 156 kader</p>
+            <p className="text-xl font-extrabold text-success-foreground">
+              {userRankIndex !== -1 ? `#${userRankIndex + 1}` : "Bukan Top 10"} dari 156 kader
+            </p>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-extrabold text-success-foreground">88</p>
+            <p className="text-2xl font-extrabold text-success-foreground">{userScore}</p>
             <p className="text-xs text-success-foreground/80">poin</p>
           </div>
         </div>
       </div>
 
       {/* Full Rankings */}
-      <div className="space-y-2">
-        <h2 className="text-lg font-bold text-foreground">Peringkat Lengkap</h2>
-        {mockRankings.slice(3).map((kader) => (
+      <div className="space-y-2 pb-10">
+        <h2 className="text-lg font-bold text-foreground pl-1">Peringkat Lengkap</h2>
+        {rankings.slice(3).map((kader) => (
           <div key={kader.rank} className="card-pop p-3 flex items-center gap-3">
-            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-muted rounded-xl flex items-center justify-center border-playful-sm flex-shrink-0">
               {getRankIcon(kader.rank)}
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-foreground truncate">{kader.name}</p>
               <p className="text-xs text-muted-foreground">{kader.divisi}</p>
             </div>
-            <div className="text-right">
+            <div className="text-right flex-shrink-0">
               <p className="font-extrabold text-foreground">{kader.score}</p>
               <p className="text-[10px] text-muted-foreground">poin</p>
             </div>

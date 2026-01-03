@@ -1,9 +1,6 @@
 
 export interface Amalan {
-    id?: number; // Dexie uses number for autoIncrement, but we can map string id if needed. Let's use string for compatibility with mock/future backend.
-    // Actually, Dexie autoIncrement is number. If we want compatibility with Supabase (UUID), we should probably use string.
-    // Let's stick to the interface defined in AmalanYaumiah.tsx for now but maybe adapt it.
-    // Original: id: string;
+    id?: number;
     name: string;
     category: string;
     completed: boolean;
@@ -12,7 +9,7 @@ export interface Amalan {
 }
 
 export interface User {
-    id?: string;
+    id?: number;
     email: string;
     password?: string; // Add password field
     nama: string;
@@ -33,13 +30,23 @@ export interface IAmalanRepository {
     initDailyAmalans(date: string, defaultAmalans: Omit<Amalan, "id" | "date">[]): Promise<Amalan[]>;
 }
 
+export interface KaderRank {
+    rank: number;
+    name: string;
+    divisi: string;
+    score: number;
+    avatar?: string;
+}
+
 export interface IAuthRepository {
     login(email: string): Promise<User | null>;
     register(user: User): Promise<User>;
     getCurrentUser(): Promise<User | null>;
+    getUser(id: number): Promise<User | null>;
     logout(): Promise<void>;
     updateUser(userId: number, updates: Partial<User>): Promise<void>;
     updatePassword(userId: number, oldPassword: string, newPassword: string): Promise<boolean>;
+    getKaderRankings(): Promise<KaderRank[]>;
 }
 
 export interface Event {

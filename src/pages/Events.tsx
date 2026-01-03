@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 import CreateEventDialog from "@/components/events/CreateEventDialog";
+import EventDetailDialog from "@/components/events/EventDetailDialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +17,9 @@ const Events = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const handleEditClick = (event: Event) => {
     setEditingEvent(event);
@@ -28,10 +31,8 @@ const Events = () => {
     if (isCreator(event)) {
       handleEditClick(event);
     } else {
-      // TODO: Open detail view for non-creators (for now maybe alert or just show read-only view)
-      // For now, let's keep the button as 'Detail' but if clicked by creator it edits
-      // User request: "kalau detail dipencet, kalau dia yang bikin, dia bisa mengedit infonnya"
-      alert("Fitur detail untuk peserta sedang dikembangkan. Anda hanya bisa melihat info di card ini.");
+      setSelectedEvent(event);
+      setIsDetailOpen(true);
     }
   };
 
@@ -49,7 +50,7 @@ const Events = () => {
     loadData();
   }, [eventRepository, authRepository]);
 
-  const isCreator = (event: Event) => currentUser?.id && Number(currentUser.id) === Number(event.creatorId);
+  const isCreator = (event: Event) => currentUser?.id === event.creatorId;
 
 
   return (
@@ -154,6 +155,14 @@ const Events = () => {
         onSuccess={loadData}
         creatorId={currentUser ? Number(currentUser.id) : 0}
         event={editingEvent}
+      />
+      <EventDetailDialog
+        isOpen={isDetailOpen}
+        onClose={() => {
+          setIsDetailOpen(false);
+          setSelectedEvent(null);
+        }}
+        event={selectedEvent}
       />
     </div>
   );

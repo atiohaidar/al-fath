@@ -3,33 +3,35 @@ import { Link } from "react-router-dom";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { Card } from "@/components/ui/card";
 
+import { ROUTES } from "@/lib/routes";
+
 const actions = [
   {
     icon: ClipboardCheck,
     label: "Isi Amalan",
     description: "Catat amalan harian",
-    path: "/amalan",
+    path: ROUTES.APP.AMALAN,
     color: "gradient-yellow",
   },
   {
     icon: CalendarCheck,
     label: "Presensi",
     description: "Absen kegiatan",
-    path: "/events",
+    path: ROUTES.APP.EVENTS,
     color: "gradient-blue",
   },
   {
     icon: Users,
     label: "Anggota",
     description: "Lihat struktur",
-    path: "/info",
+    path: ROUTES.APP.INFO,
     color: "gradient-green",
   },
   {
     icon: Trophy,
     label: "Kader of Month",
     description: "Lihat peringkat",
-    path: "/kader-of-month",
+    path: ROUTES.APP.KADER_OF_MONTH,
     color: "gradient-red",
   },
 ];

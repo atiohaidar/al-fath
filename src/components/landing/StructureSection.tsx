@@ -20,7 +20,7 @@ export const StructureSection = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {structure.departments.map((dept, idx) => {
                         // Dynamically load icon
-                        const IconComponent = (Icons as any)[dept.icon] || Icons.Circle;
+                        const IconComponent = (Icons as unknown as Record<string, React.ElementType>)[dept.icon] || Icons.Circle;
 
                         return (
                             <div

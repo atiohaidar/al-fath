@@ -1,5 +1,5 @@
 import { db } from '../db';
-import { Amalan, IAmalanRepository, User, IAuthRepository, Event, Attendance, IEventRepository } from '../interfaces';
+import { Amalan, IAmalanRepository, User, IAuthRepository, Event, Attendance, IEventRepository, KaderRank } from '../interfaces';
 
 export class LocalAuthRepository implements IAuthRepository {
     async login(email: string, password?: string): Promise<User | null> {
@@ -18,7 +18,7 @@ export class LocalAuthRepository implements IAuthRepository {
 
     async register(user: User): Promise<User> {
         const id = await db.users.add(user);
-        return { ...user, id: id.toString() };
+        return { ...user, id };
     }
 
     async getCurrentUser(): Promise<User | null> {
@@ -28,6 +28,11 @@ export class LocalAuthRepository implements IAuthRepository {
 
         // Dexie auto-increment IDs are numbers, but we might store as string in localStorage
         const user = await db.users.get(Number(userId));
+        return user || null;
+    }
+
+    async getUser(id: number): Promise<User | null> {
+        const user = await db.users.get(id);
         return user || null;
     }
 
@@ -56,5 +61,21 @@ export class LocalAuthRepository implements IAuthRepository {
         // Update to new password
         await db.users.update(userId, { password: newPassword });
         return true;
+    }
+
+    async getKaderRankings(): Promise<KaderRank[]> {
+        // Return mock data for now, but through repository
+        return [
+            { rank: 1, name: "Fatimah Azzahra", divisi: "PSDM", score: 98 },
+            { rank: 2, name: "Muhammad Rizki", divisi: "Kaderisasi", score: 95 },
+            { rank: 3, name: "Aisyah Putri", divisi: "Medkominfo", score: 92 },
+            { rank: 4, name: "Tio Haidar Hanif", divisi: "Medkominfo", score: 88 },
+            { rank: 5, name: "Umar Abdullah", divisi: "Syiar", score: 85 },
+            { rank: 6, name: "Khadijah Sari", divisi: "Sosmas", score: 82 },
+            { rank: 7, name: "Bilal Ibrahim", divisi: "PSDM", score: 80 },
+            { rank: 8, name: "Maryam Husna", divisi: "Kaderisasi", score: 78 },
+            { rank: 9, name: "Yusuf Hakim", divisi: "Syiar", score: 75 },
+            { rank: 10, name: "Sarah Amelia", divisi: "Sosmas", score: 72 },
+        ];
     }
 }

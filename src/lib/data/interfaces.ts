@@ -41,3 +41,37 @@ export interface IAuthRepository {
     updateUser(userId: number, updates: Partial<User>): Promise<void>;
     updatePassword(userId: number, oldPassword: string, newPassword: string): Promise<boolean>;
 }
+
+export interface Event {
+    id?: number;
+    title: string;
+    description: string;
+    date: string;
+    time: string;
+    end_time?: string;
+    location: string;
+    creatorId: number;
+    category?: string;
+    banner?: string;
+    participants_count?: number;
+}
+
+export interface Attendance {
+    id?: number;
+    eventId: number;
+    userId: number;
+    timestamp: string; // ISO string
+}
+
+export interface IEventRepository {
+    getEvents(): Promise<Event[]>;
+    getEvent(id: number): Promise<Event | undefined>;
+    createEvent(event: Omit<Event, 'id'>): Promise<number>;
+    updateEvent(id: number, updates: Partial<Event>): Promise<void>;
+    deleteEvent(id: number): Promise<void>;
+
+    // Attendance
+    checkInUser(eventId: number, userId: number): Promise<boolean>; // Returns true if new check-in, false if already Checked-in
+    getEventAttendees(eventId: number): Promise<Attendance[]>;
+    isUserCheckedIn(eventId: number, userId: number): Promise<boolean>;
+}

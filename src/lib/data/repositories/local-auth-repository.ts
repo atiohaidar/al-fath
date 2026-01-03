@@ -1,6 +1,5 @@
-
 import { db } from '../db';
-import { IAuthRepository, User } from '../interfaces';
+import { Amalan, IAmalanRepository, User, IAuthRepository, Event, Attendance, IEventRepository } from '../interfaces';
 
 export class LocalAuthRepository implements IAuthRepository {
     async login(email: string, password?: string): Promise<User | null> {

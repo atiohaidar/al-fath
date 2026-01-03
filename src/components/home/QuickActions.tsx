@@ -55,7 +55,7 @@ const QuickActions = () => {
             >
               <Card variant="playful" className="p-4 flex items-center gap-3">
                 <div className={`w-12 h-12 ${action.color} rounded-xl border-playful flex items-center justify-center flex-shrink-0`}>
-                  <Icon className="w-6 h-6 text-foreground" />
+                  <Icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-bold text-sm text-foreground truncate">{action.label}</h3>

@@ -17,7 +17,7 @@ const MobileLayout = ({
     <div className="min-h-screen max-w-md mx-auto relative overflow-hidden">
       {/* Paper texture background */}
       <div
-        className="fixed inset-0 z-0 opacity-30 pointer-events-none"
+        className="fixed inset-0 z-0 opacity-15 pointer-events-none"
         style={{
           backgroundImage: `url('/assets/playful/Texture/grid full.png')`,
           backgroundSize: '400px 400px',

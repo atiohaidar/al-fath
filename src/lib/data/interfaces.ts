@@ -27,6 +27,8 @@ export interface IAmalanRepository {
     getAmalans(date: string): Promise<Amalan[]>;
     toggleAmalan(id: string | number): Promise<void>; // id depends on DB implementation
     addAmalan(amalan: Omit<Amalan, "id">): Promise<string | number>;
+    updateAmalan(id: number, updates: Partial<Omit<Amalan, 'id' | 'date'>>): Promise<void>;
+    deleteAmalan(id: number): Promise<void>;
     initDailyAmalans(date: string, defaultAmalans: Omit<Amalan, "id" | "date">[]): Promise<Amalan[]>;
 }
 
@@ -47,6 +49,7 @@ export interface IAuthRepository {
     updateUser(userId: number, updates: Partial<User>): Promise<void>;
     updatePassword(userId: number, oldPassword: string, newPassword: string): Promise<boolean>;
     getKaderRankings(): Promise<KaderRank[]>;
+    loginAsGuest(): Promise<User>;
 }
 
 export interface Event {

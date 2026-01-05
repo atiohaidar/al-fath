@@ -26,6 +26,20 @@ export class LocalAuthRepository implements IAuthRepository {
         const userId = localStorage.getItem('currentUserId');
         if (!userId) return null;
 
+        if (userId === 'guest') {
+            return {
+                id: 0, // 0 for guest
+                email: "guest@alfath.com",
+                nama: "Tamu",
+                nim: "-",
+                divisi: "Tamu",
+                tingkatKader: "Umum",
+                generasi: "-",
+                jabatan: "Pengunjung",
+                avatar: null
+            };
+        }
+
         // Dexie auto-increment IDs are numbers, but we might store as string in localStorage
         const user = await db.users.get(Number(userId));
         return user || null;
@@ -77,5 +91,21 @@ export class LocalAuthRepository implements IAuthRepository {
             { rank: 9, name: "Yusuf Hakim", divisi: "Syiar", score: 75 },
             { rank: 10, name: "Sarah Amelia", divisi: "Sosmas", score: 72 },
         ];
+    }
+
+    async loginAsGuest(): Promise<User> {
+        const guestUser: User = {
+            id: 0, // 0 for guest
+            email: "guest@alfath.com",
+            nama: "Tamu",
+            nim: "-",
+            divisi: "Tamu",
+            tingkatKader: "Umum",
+            generasi: "-",
+            jabatan: "Pengunjung",
+            avatar: null
+        };
+        localStorage.setItem('currentUserId', 'guest');
+        return guestUser;
     }
 }

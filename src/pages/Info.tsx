@@ -97,7 +97,7 @@ const Info = () => {
               "Lebih Dekat, Lebih Bersahabat"
             </h2>
             <p className="text-sm text-muted-foreground mt-2">
-              Berdakwah dengan cara yang indah dan menarik
+              Rangkai Cerita, Inspirasi untuk Semua
             </p>
           </div>
         </div>

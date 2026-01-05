@@ -130,6 +130,14 @@
     box-shadow: 6px 6px 0px hsl(var(--alfath-dark));
   }
 
+  .shadow-soft {
+    box-shadow: 3px 3px 0px hsl(var(--alfath-dark) / 0.6);
+  }
+
+  .shadow-soft-lg {
+    box-shadow: 5px 5px 0px hsl(var(--alfath-dark) / 0.6);
+  }
+
   .border-playful {
     border: 2px solid hsl(var(--alfath-dark));
   }
@@ -160,8 +168,13 @@
   }
 
   .card-pop:hover {
-    @apply -translate-y-1;
+    @apply -translate-y-1 scale-[1.02];
     box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .card-pop:active {
+    @apply translate-y-0 scale-100;
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1);
   }
 
   /* Utility aliases for the new design system */

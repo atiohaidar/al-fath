@@ -18,10 +18,11 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
             try {
                 const user = await authRepository.getCurrentUser();
                 if (!user) {
-                    navigate(ROUTES.AUTH);
+                    await authRepository.loginAsGuest();
                 }
             } catch (error) {
                 console.error("Auth guard error", error);
+                // Fallback if even guest login fails (unlikely)
                 navigate(ROUTES.AUTH);
             } finally {
                 setIsLoading(false);

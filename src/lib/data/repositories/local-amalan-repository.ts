@@ -18,6 +18,14 @@ export class LocalAmalanRepository implements IAmalanRepository {
         return await db.amalans.add(amalan as Amalan);
     }
 
+    async updateAmalan(id: number, updates: Partial<Omit<Amalan, 'id' | 'date'>>): Promise<void> {
+        await db.amalans.update(id, updates);
+    }
+
+    async deleteAmalan(id: number): Promise<void> {
+        await db.amalans.delete(id);
+    }
+
     async initDailyAmalans(date: string, defaultAmalans: Omit<Amalan, 'id' | 'date'>[]): Promise<Amalan[]> {
         const existing = await this.getAmalans(date);
         if (existing.length > 0) {

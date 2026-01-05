@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Check, ChevronLeft, ChevronRight, Plus, Pencil } from "lucide-react";
 import { format, addDays, subDays } from "date-fns";
 import { id } from "date-fns/locale";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRepositories } from "@/hooks/use-repositories";
 import { Amalan } from "@/lib/data/interfaces";
 import AddAmalanDialog from "@/components/amalan/AddAmalanDialog";
+import EditAmalanDialog from "@/components/amalan/EditAmalanDialog";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -25,18 +26,31 @@ const DEFAULT_AMALAN_TEMPLATE: Omit<Amalan, "id" | "date">[] = [
 ];
 
 const categoryColors: Record<string, string> = {
-  "Sholat Wajib": "gradient-green", // TETAP SAMA
-  "Sholat Sunnah": "gradient-blue", // TETAP SAMA
-  "Al-Quran": "gradient-yellow", // TETAP SAMA
-  "Dzikir": "gradient-red", // TETAP SAMA
+  "Sholat Wajib": "gradient-green",
+  "Sholat Sunnah": "gradient-blue",
+  "Al-Quran": "gradient-yellow",
+  "Dzikir": "gradient-red",
   "Amal": "bg-alfath-green",
   "Puasa": "bg-alfath-blue",
   "Lainnya": "bg-muted"
 };
 
+// Icon mapping per kategori - bisa di-customize
+const categoryIcons: Record<string, string> = {
+  "Sholat Wajib": "🕌",
+  "Sholat Sunnah": "🏠",
+  "Al-Quran": "📖",
+  "Dzikir": "🤲",
+  "Amal": "🤲",
+  "Puasa": "🌙",
+  "Lainnya": "🕌" // Default: masjid
+};
+
 const AmalanYaumiah = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedAmalan, setSelectedAmalan] = useState<Amalan | null>(null);
   const { amalanRepository } = useRepositories();
   const queryClient = useQueryClient();
 
@@ -63,11 +77,78 @@ const AmalanYaumiah = () => {
     toggleMutation.mutate(id);
   };
 
+  const handleEdit = (amalan: Amalan, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedAmalan(amalan);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleLongPress = (amalan: Amalan) => {
+    setSelectedAmalan(amalan);
+    setIsEditDialogOpen(true);
+  };
+
   const completedCount = amalanList ? amalanList.filter((a) => a.completed).length : 0;
   const progress = amalanList.length > 0 ? Math.round((completedCount / amalanList.length) * 100) : 0;
 
+  // Celebration effect when 100% complete
+  useEffect(() => {
+    if (progress >= 100 && amalanList.length > 0) {
+      // Simple confetti celebration
+      const duration = 3000;
+      const animationEnd = Date.now() + duration;
+      const colors = ["#22c55e", "#fbbf24", "#3b82f6", "#ef4444"];
+
+      const randomInRange = (min: number, max: number) => {
+        return Math.random() * (max - min) + min;
+      };
+
+      const confetti = () => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) return;
+
+        const particleCount = 3;
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.style.position = "fixed";
+          particle.style.width = "10px";
+          particle.style.height = "10px";
+          particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          particle.style.left = Math.random() * window.innerWidth + "px";
+          particle.style.top = "-20px";
+          particle.style.borderRadius = "50%";
+          particle.style.pointerEvents = "none";
+          particle.style.zIndex = "9999";
+          particle.style.opacity = "1";
+          document.body.appendChild(particle);
+
+          const animation = particle.animate(
+            [
+              { transform: "translateY(0) rotate(0deg)", opacity: 1 },
+              {
+                transform: `translateY(${window.innerHeight}px) rotate(${randomInRange(0, 360)}deg)`,
+                opacity: 0,
+              },
+            ],
+            {
+              duration: randomInRange(2000, 3000),
+              easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            }
+          );
+
+          animation.onfinish = () => particle.remove();
+        }
+
+        requestAnimationFrame(confetti);
+      };
+
+      confetti();
+    }
+  }, [progress, amalanList.length]);
+
   return (
-    <div className="p-4 space-y-5">
+    <div className="px-5 py-4 space-y-4">
       {/* Header */}
       {/* Header */}
       <div className="flex justify-center">
@@ -114,20 +195,20 @@ const AmalanYaumiah = () => {
       </Card>
 
       {/* Progress */}
-      <Card variant="playful" className="p-4">
+      <Card variant="playful" className="p-5">
         <div className="flex justify-between items-center mb-3">
-          <span className="text-sm font-semibold text-foreground">Progress Hari Ini</span>
-          <span className="text-sm font-bold text-foreground">
+          <span className="text-base font-bold text-foreground">Progress Hari Ini</span>
+          <span className="text-base font-extrabold text-foreground">
             {completedCount}/{amalanList.length}
           </span>
         </div>
-        <div className="h-4 bg-muted rounded-full overflow-hidden border-playful">
+        <div className="h-2.5 bg-muted rounded-full overflow-hidden border-2 border-alfath-dark/20">
           <div
-            className="h-full gradient-green transition-all duration-500"
+            className="h-full gradient-green transition-all duration-500 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <p className="text-center text-xs text-muted-foreground mt-2">
+        <p className="text-center text-sm text-muted-foreground mt-3">
           {progress >= 100
             ? "🎉 Alhamdulillah, semua amalan selesai!"
             : progress >= 50
@@ -137,42 +218,74 @@ const AmalanYaumiah = () => {
       </Card>
 
       {/* Amalan List */}
-      <div className="space-y-3">
-        {amalanList.map((amalan) => (
-          <button
-            key={amalan.id}
-            onClick={() => amalan.id && toggleAmalan(amalan.id)}
-            className={`w-full transition-all ${amalan.completed ? "opacity-70" : ""
-              }`}
-          >
-            <Card variant="playful" className="p-4 flex items-center gap-4 text-left">
-              <div
-                className={`w-12 h-12 rounded-xl border-playful flex items-center justify-center flex-shrink-0 ${amalan.completed
-                  ? "gradient-green"
-                  : categoryColors[amalan.category] || "bg-muted"
+      <div className="space-y-3 pb-2">
+        {amalanList.map((amalan) => {
+          let pressTimer: NodeJS.Timeout;
+
+          const handleMouseDown = () => {
+            pressTimer = setTimeout(() => handleLongPress(amalan), 500);
+          };
+
+          const handleMouseUp = () => {
+            clearTimeout(pressTimer);
+          };
+
+          return (
+            <div
+              key={amalan.id}
+              className="relative group"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onTouchStart={handleMouseDown}
+              onTouchEnd={handleMouseUp}
+            >
+              <button
+                onClick={() => amalan.id && toggleAmalan(amalan.id)}
+                className={`w-full transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${amalan.completed ? "opacity-60" : ""
                   }`}
               >
-                {amalan.completed ? (
-                  <Check className="w-6 h-6 text-success-foreground" />
-                ) : (
-                  <span className="text-lg">📿</span>
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3
-                  className={`font-bold text-foreground ${amalan.completed ? "line-through" : ""
-                    }`}
-                >
-                  {amalan.name}
-                </h3>
-                <p className="text-xs text-muted-foreground">
-                  {amalan.category}
-                  {amalan.time && ` • ${amalan.time}`}
-                </p>
-              </div>
-            </Card>
-          </button>
-        ))}
+                <Card variant="playful" className="p-4 flex items-center gap-4 text-left hover:shadow-playful-lg transition-shadow">
+                  <div
+                    className={`w-12 h-12 rounded-xl border-playful flex items-center justify-center flex-shrink-0 transition-all ${amalan.completed
+                        ? "gradient-green"
+                        : categoryColors[amalan.category] || "bg-muted"
+                      }`}
+                  >
+                    {amalan.completed ? (
+                      <Check className="w-6 h-6 text-success-foreground" />
+                    ) : (
+                      <span className="text-lg">
+                        {categoryIcons[amalan.category] || "🕌"}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-base text-foreground">
+                      {amalan.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground font-medium mt-0.5">
+                      {amalan.category}
+                      {amalan.time && ` • ${amalan.time}`}
+                    </p>
+                  </div>
+
+                  {/* Spacer for edit button */}
+                  <div className="w-10"></div>
+                </Card>
+              </button>
+
+              {/* Edit Button - appears on hover */}
+              <button
+                onClick={(e) => handleEdit(amalan, e)}
+                className="absolute top-1/2 -translate-y-1/2 right-3 w-10 h-10 rounded-xl gradient-yellow border-playful shadow-playful-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-110 z-10"
+                title="Edit amalan"
+              >
+                <Pencil className="w-5 h-5 text-alfath-dark" />
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       {/* Add Amalan Dialog */}
@@ -182,6 +295,20 @@ const AmalanYaumiah = () => {
         date={formattedDate}
         onSuccess={() => {
           queryClient.invalidateQueries({ queryKey: ["amalans", formattedDate] });
+        }}
+      />
+
+      {/* Edit Amalan Dialog */}
+      <EditAmalanDialog
+        isOpen={isEditDialogOpen}
+        onClose={() => {
+          setIsEditDialogOpen(false);
+          setSelectedAmalan(null);
+        }}
+        amalan={selectedAmalan}
+        onSuccess={() => {
+          queryClient.invalidateQueries({ queryKey: ["amalans", formattedDate] });
+          queryClient.invalidateQueries({ queryKey: ["weekly-stats"] });
         }}
       />
     </div>

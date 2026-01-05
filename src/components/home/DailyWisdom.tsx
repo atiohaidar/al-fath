@@ -31,7 +31,7 @@ const DailyWisdom = () => {
     };
 
     return (
-        <div className="w-full pt-2 px-1">
+        <div className="w-full pt-2 px-1 mt-2">
             <div className="relative">
                 {/* Floating Pill Label */}
                 <div className="absolute -top-5 left-4 z-10 transform -rotate-1">
@@ -47,7 +47,7 @@ const DailyWisdom = () => {
                 <div className="bg-card border-[3px] border-alfath-dark rounded-2xl p-6 pt-8 shadow-playful relative overflow-hidden">
 
                     {/* Decorative Background Pattern */}
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+                    <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
                         <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <path d="M0 0 L100 100 M100 0 L0 100" stroke="currentColor" strokeWidth="0.5" />
                             <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="0.5" fill="none" />
@@ -65,7 +65,7 @@ const DailyWisdom = () => {
 
                         {/* Translation/Content */}
                         <figure className="max-w-xl mx-auto">
-                            <blockquote className="text-base sm:text-lg font-medium leading-relaxed mb-3 font-serif italic text-foreground/90">
+                            <blockquote className="text-base sm:text-lg font-medium leading-relaxed mb-3 text-foreground/90">
                                 "{wisdom.content}"
                             </blockquote>
                             <figcaption className="text-xs font-bold text-muted-foreground/80 flex items-center justify-center gap-2 uppercase tracking-wide">

@@ -63,7 +63,7 @@ const ProfileSettings = () => {
         if (!user?.id) return;
 
         try {
-            const userId = parseInt(user.id);
+            const userId = user.id;
             await authRepository.updateUser(userId, personalInfo);
 
             // Refresh user data
@@ -92,7 +92,7 @@ const ProfileSettings = () => {
         }
 
         try {
-            const userId = parseInt(user.id);
+            const userId = user.id;
             const success = await authRepository.updatePassword(
                 userId,
                 passwordForm.oldPassword,

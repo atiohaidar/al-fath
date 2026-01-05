@@ -71,9 +71,22 @@ const Events = () => {
       {/* Event List */}
       <div className="space-y-4">
         {events.length === 0 ? (
-          <div className="text-center py-10 opacity-50">
-            <Calendar className="w-16 h-16 mx-auto mb-3 text-muted-foreground" />
-            <p>Belum ada event</p>
+          <div className="text-center py-12 px-4">
+            <Card variant="playful" className="p-8 max-w-md mx-auto">
+              <Calendar className="w-20 h-20 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-xl font-bold text-foreground mb-2">Belum Ada Event</h3>
+              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                Yuk, buat event pertama untuk mengatur kegiatan dan presensi peserta dengan mudah!
+              </p>
+              <Button
+                onClick={() => setIsCreateOpen(true)}
+                variant="gradient-yellow"
+                className="w-full rounded-xl font-bold"
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                Buat Event Baru
+              </Button>
+            </Card>
           </div>
         ) : (
           events.map((event) => (

@@ -1,0 +1,158 @@
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+
+interface DecorativeElementsProps {
+    variant?: "corners" | "top" | "bottom" | "scattered" | "minimal";
+    className?: string;
+}
+
+// ============================================
+// OPTIMIZED CONFIGURATION
+// ============================================
+// Benefits of this approach:
+// - Browser caching (images loaded once, reused everywhere)
+// - Lazy loading (only load images for active variant)
+// - Preloading critical images
+// - Easy to manage positions
+// ============================================
+
+type DecorativeItem = {
+    src: string;       // Image path
+    position: string;  // Tailwind classes untuk posisi
+    size: string;      // Tailwind classes untuk ukuran (w-X h-X)
+    opacity: string;   // Tailwind classes untuk opacity
+    rotation: string;  // Tailwind classes untuk rotasi
+    preload?: boolean; // Preload this image for faster loading
+};
+
+const decorativeConfig = {
+    corners: [
+        { src: "/assets/playful/Star/Kuning.png", position: "-top-4 -left-4", size: "w-20 h-20", opacity: "opacity-70", rotation: "rotate-12", preload: true },
+        { src: "/assets/playful/Star/Biru.png", position: "-top-2 -right-6", size: "w-16 h-16", opacity: "opacity-60", rotation: "-rotate-6", preload: true },
+        { src: "/assets/playful/Star/Hijau.png", position: "-bottom-4 -left-6", size: "w-18 h-18", opacity: "opacity-60", rotation: "rotate-45" },
+        { src: "/assets/playful/Star/Merah.png", position: "-bottom-2 -right-4", size: "w-14 h-14", opacity: "opacity-70", rotation: "-rotate-12" },
+    ],
+
+    top: [
+        { src: "/assets/playful/Star/Kuning.png", position: "-top-4 left-4", size: "w-16 h-16", opacity: "opacity-80", rotation: "rotate-12", preload: true },
+        { src: "/assets/playful/Star/Biru.png", position: "top-2 right-8", size: "w-12 h-12", opacity: "opacity-60", rotation: "-rotate-6" },
+        { src: "/assets/playful/Smiley/Asset 101@4x.png", position: "-top-2 left-1/3", size: "w-10 h-10", opacity: "opacity-50", rotation: "" },
+    ],
+
+    bottom: [
+        { src: "/assets/playful/Star/Hijau.png", position: "-bottom-4 left-8", size: "w-14 h-14", opacity: "opacity-70", rotation: "rotate-45" },
+        { src: "/assets/playful/Star/Merah.png", position: "bottom-4 right-4", size: "w-12 h-12", opacity: "opacity-60", rotation: "-rotate-12" },
+        { src: "/assets/playful/Smiley/Asset 102@4x.png", position: "bottom-8 left-1/2", size: "w-8 h-8", opacity: "opacity-40", rotation: "" },
+    ],
+
+    minimal: [
+        { src: "/assets/playful/Star/Kuning.png", position: "top-20 -right-4", size: "w-12 h-12", opacity: "opacity-40", rotation: "rotate-12" },
+        { src: "/assets/playful/Star/Merah.png", position: "bottom-32 -left-4", size: "w-10 h-10", opacity: "opacity-35", rotation: "-rotate-12" },
+    ],
+
+    scattered: [
+        // TOP RIGHT CORNER - Heavy stacking
+        { src: "/assets/playful/Rectangle/Kotak Kuning.png", position: "-top-16 -right-20", size: "w-48 h-48", opacity: "opacity-70", rotation: "rotate-12" },
+        { src: "/assets/playful/Star/Merah.png", position: "top-2 right-6", size: "w-16 h-16", opacity: "opacity-85", rotation: "rotate-6", preload: true },
+        { src: "/assets/playful/Rectangle/Masya Allah.png", position: "-top-0 right-9", size: "w-32 h-32", opacity: "opacity-85", rotation: "-rotate-6" },
+        { src: "/assets/playful/Star/Biru.png", position: "top-12 -right-4", size: "w-14 h-14", opacity: "opacity-70", rotation: "-rotate-12" },
+        { src: "/assets/playful/Star/Hijau.png", position: "top-24 right-6", size: "w-12 h-12", opacity: "opacity-60", rotation: "rotate-45" },
+
+        // TOP LEFT CORNER - Heavy stacking
+        { src: "/assets/playful/Rectangle/Kotak Biru.png", position: "-top-20 -left-24", size: "w-52 h-52", opacity: "opacity-65", rotation: "-rotate-12" },
+        { src: "/assets/playful/Rectangle/Kotak Kuning.png", position: "-top-4 -left-12", size: "w-36 h-36", opacity: "opacity-55", rotation: "rotate-6" },
+        { src: "/assets/playful/Star/Bismillah_Berkah_Pink.png", position: "top-4 left-4", size: "w-20 h-20", opacity: "opacity-80", rotation: "-rotate-6" },
+        { src: "/assets/playful/Star/Kuning.png", position: "top-20 -left-2", size: "w-14 h-14", opacity: "opacity-70", rotation: "rotate-12" },
+
+
+
+
+
+        // MIDDLE LEFT
+        { src: "/assets/playful/Star/Hijau.png", position: "top-1/3 -left-6", size: "w-16 h-16", opacity: "opacity-55", rotation: "rotate-45" },
+        { src: "/assets/playful/Smiley/Asset 103@4x.png", position: "top-[40%] left-2", size: "w-10 h-10", opacity: "opacity-45", rotation: "" },
+
+        // MIDDLE RIGHT
+        { src: "/assets/playful/Star/Ungu.png", position: "top-1/2 -right-6", size: "w-16 h-16", opacity: "opacity-50", rotation: "-rotate-12" },
+        { src: "/assets/playful/Smiley/Asset 101@4x.png", position: "top-[55%] right-4", size: "w-10 h-10", opacity: "opacity-40", rotation: "" },
+
+        // BOTTOM LEFT CORNER - Heavy stacking
+        { src: "/assets/playful/Rectangle/Kotak Merah.png", position: "-bottom-2 -left-8", size: "w-52 h-52", opacity: "opacity-65", rotation: "rotate-12" },
+        { src: "/assets/playful/Rectangle/Kotak Kuning.png", position: "-bottom-2 -left-2", size: "w-36 h-36", opacity: "opacity-55", rotation: "-rotate-6" },
+        { src: "/assets/playful/Star/Kuy_Pink.png", position: "bottom-2 left-2", size: "w-24 h-24", opacity: "opacity-75", rotation: "rotate-6" },
+        { src: "/assets/playful/Star/Biru.png", position: "bottom-40 left-20", size: "w-12 h-12", opacity: "opacity-60", rotation: "-rotate-12" },
+
+        // BOTTOM RIGHT CORNER - Heavy stacking
+        { src: "/assets/playful/Rectangle/Kotak Biru.png", position: "-bottom-2 -right-8", size: "w-48 h-48", opacity: "opacity-60", rotation: "-rotate-6" },
+        { src: "/assets/playful/Star/Merah.png", position: "bottom-20 right-2", size: "w-14 h-14", opacity: "opacity-50", rotation: "rotate-45" },
+        { src: "/assets/playful/Rectangle/Letsgoo.png", position: "bottom-2 right-2", size: "w-28 h-28", opacity: "opacity-80", rotation: "rotate-3" },
+        { src: "/assets/playful/Star/SHEEESH.png", position: "bottom-24 right-20", size: "w-16 h-16", opacity: "opacity-70", rotation: "rotate-12" },
+        { src: "/assets/playful/Star/Kuning.png", position: "bottom-32 right-3", size: "w-12 h-12", opacity: "opacity-55", rotation: "-rotate-6" },
+
+        // CENTER DECORATIONS
+        { src: "/logo.png", position: "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2", size: "", opacity: "opacity-20", rotation: "" },
+        { src: "/assets/playful/Smiley/Asset 102@4x.png", position: "top-2/3 left-1/2 -translate-x-1/2", size: "w-8 h-8", opacity: "opacity-35", rotation: "" },
+    ],
+};
+
+// ============================================
+// OPTIMIZED RENDERING WITH PRELOADING
+// ============================================
+
+const DecorativeElements = ({
+    variant = "corners",
+    className,
+}: DecorativeElementsProps) => {
+    const items = decorativeConfig[variant];
+    const [imagesLoaded, setImagesLoaded] = useState(false);
+
+    // Preload critical images for faster rendering
+    useEffect(() => {
+        const imagesToPreload = items
+            .filter(item => item.preload)
+            .map(item => item.src);
+
+        if (imagesToPreload.length === 0) {
+            setImagesLoaded(true);
+            return;
+        }
+
+        const preloadImages = imagesToPreload.map(src => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = src;
+            });
+        });
+
+        Promise.all(preloadImages)
+            .then(() => setImagesLoaded(true))
+            .catch(() => setImagesLoaded(true)); // Still show even if preload fails
+    }, [variant, items]);
+
+    if (!items) return null;
+
+    return (
+        <div className={cn("pointer-events-none fixed inset-0 z-0 overflow-hidden", className)}>
+            {items.map((item, index) => (
+                <img
+                    key={index}
+                    src={item.src}
+                    alt=""
+                    loading={item.preload ? "eager" : "lazy"} // Eager for preloaded, lazy for others
+                    className={cn(
+                        "absolute transition-opacity duration-300",
+                        item.position,
+                        item.size,
+                        item.opacity,
+                        item.rotation,
+                        !imagesLoaded && item.preload ? "opacity-0" : "" // Fade in when loaded
+                    )}
+                />
+            ))}
+        </div>
+    );
+};
+
+export default DecorativeElements;

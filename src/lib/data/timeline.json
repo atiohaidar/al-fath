@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "date": "Januari 2026",
+        "title": "Open Recruitment",
+        "description": "Penerimaan anggota baru LDK Al-Fath untuk periode kepengurusan 2026.",
+        "status": "completed"
+    },
+    {
+        "id": 2,
+        "date": "Februari 2026",
+        "title": "Grand Launching & First Gathering",
+        "description": "Pelantikan pengurus baru dan gathering perdana seluruh anggota.",
+        "status": "upcoming"
+    },
+    {
+        "id": 3,
+        "date": "Maret 2026",
+        "title": "Ramadhan Kareem",
+        "description": "Rangkaian kegiatan menyambut bulan suci Ramadhan, termasuk kajia dan buka bersama.",
+        "status": "upcoming"
+    },
+    {
+        "id": 4,
+        "date": "Juni 2026",
+        "title": "Al-Fath Islamic Fair",
+        "description": "Festival islam terbesar di kampus dengan berbagai lomba dan seminar nasional.",
+        "status": "upcoming"
+    },
+    {
+        "id": 5,
+        "date": "November 2026",
+        "title": "Musyawarah Besar",
+        "description": "Laporan pertanggungjawaban kepengurusan dan pemilihan ketua umum baru.",
+        "status": "upcoming"
+    }
+]

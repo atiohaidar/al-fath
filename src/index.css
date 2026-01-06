@@ -1,51 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Orbitron:wght@400..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
-
 @layer base {
   :root {
-    --background: 45 30% 96%;
-    --foreground: 30 10% 15%;
+    /* Warm cream background like notebook paper */
+    --background: 40 35% 94%;
+    --foreground: 30 20% 12%;
 
-    --card: 45 40% 98%;
-    --card-foreground: 30 10% 15%;
+    /* Pure white cards for contrast */
+    --card: 40 50% 99%;
+    --card-foreground: 30 20% 12%;
 
-    --popover: 45 40% 98%;
-    --popover-foreground: 30 10% 15%;
+    --popover: 40 50% 99%;
+    --popover-foreground: 30 20% 12%;
 
-    --primary: 45 100% 55%;
-    --primary-foreground: 30 10% 10%;
+    /* VIBRANT RED PRIMARY - Al-Fath Identity */
+    --primary: 355 85% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 90% 55%;
+    /* Blue Secondary */
+    --secondary: 205 90% 45%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 45 20% 90%;
-    --muted-foreground: 30 10% 45%;
+    --muted: 40 25% 88%;
+    --muted-foreground: 30 15% 40%;
 
-    --accent: 0 75% 55%;
-    --accent-foreground: 0 0% 100%;
+    /* Yellow Accent (Stickers/Pop) */
+    --accent: 45 100% 50%;
+    --accent-foreground: 30 20% 10%;
 
-    --success: 145 70% 45%;
+    /* Green for success */
+    --success: 140 75% 42%;
     --success-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 30 20% 85%;
-    --input: 30 20% 85%;
-    --ring: 45 100% 55%;
+    --border: 30 25% 80%;
+    --input: 30 25% 80%;
+    --ring: 355 85% 55%;
 
     --radius: 1rem;
 
-    /* Custom colors */
-    --alfath-yellow: 45 100% 55%;
-    --alfath-blue: 210 90% 55%;
-    --alfath-red: 0 75% 55%;
-    --alfath-green: 145 70% 45%;
-    --alfath-cream: 45 30% 96%;
-    --alfath-dark: 30 10% 15%;
+    /* Custom Al-Fath colors */
+    --alfath-red: 355 85% 55%;
+    --alfath-blue: 205 90% 45%;
+    --alfath-yellow: 45 100% 50%;
+    --alfath-green: 140 75% 42%;
+    --alfath-cream: 40 35% 94%;
+    --alfath-dark: 25 25% 10%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -93,12 +99,16 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Poppins', sans-serif;
-    background-image: 
-      linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+    font-family: 'Fredoka', 'Poppins', sans-serif;
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 }
@@ -120,6 +130,14 @@
     box-shadow: 6px 6px 0px hsl(var(--alfath-dark));
   }
 
+  .shadow-soft {
+    box-shadow: 3px 3px 0px hsl(var(--alfath-dark) / 0.6);
+  }
+
+  .shadow-soft-lg {
+    box-shadow: 5px 5px 0px hsl(var(--alfath-dark) / 0.6);
+  }
+
   .border-playful {
     border: 2px solid hsl(var(--alfath-dark));
   }
@@ -128,16 +146,57 @@
     border: 3px solid hsl(var(--alfath-dark));
   }
 
+  /* Organic/Hand-drawn border radius */
+  .radius-hand {
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  }
+
+  .radius-hand-sm {
+    border-radius: 20px 10px 15px 10px / 10px 15px 10px 20px;
+  }
+
+  /* Specialized Greeting Card (Hero style) */
+  .card-greeting {
+    @apply bg-primary text-primary-foreground rounded-3xl border-[3px] border-alfath-dark transition-all duration-300;
+    box-shadow: 6px 6px 0px 0px rgba(30, 30, 30, 1);
+  }
+
+  /* Standard Card Pop - used for general items */
   .card-pop {
-    @apply bg-card border-playful shadow-playful rounded-2xl transition-all duration-200;
+    @apply bg-card rounded-2xl border-2 border-alfath-dark transition-all duration-300;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .card-pop:hover {
+    @apply -translate-y-1 scale-[1.02];
+    box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
   }
 
   .card-pop:active {
-    @apply shadow-playful-sm translate-x-0.5 translate-y-0.5;
+    @apply translate-y-0 scale-100;
+    box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  /* Utility aliases for the new design system */
+  .border-pop {
+    @apply border-2 border-alfath-dark;
+  }
+
+  .shadow-pop {
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .shadow-pop-sm {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .shadow-pop-hard {
+    box-shadow: 6px 6px 0px 0px rgba(30, 30, 30, 1);
   }
 
   .btn-pop {
-    @apply border-playful shadow-playful-sm rounded-xl font-bold transition-all duration-150;
+    @apply transition-all duration-200 active:scale-95 border-2 border-alfath-dark;
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
   }
 
   .btn-pop:active {
@@ -145,15 +204,19 @@
   }
 
   .gradient-yellow {
-    background: linear-gradient(135deg, hsl(45 100% 60%) 0%, hsl(40 100% 50%) 100%);
+    background: linear-gradient(135deg, #FFEF5C 0%, #FFD60A 100%);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(355 85% 60%) 0%, hsl(355 85% 50%) 100%);
   }
 
   .gradient-blue {
-    background: linear-gradient(135deg, hsl(210 90% 60%) 0%, hsl(220 90% 50%) 100%);
+    background: linear-gradient(135deg, hsl(205 90% 60%) 0%, hsl(205 90% 50%) 100%);
   }
 
   .gradient-red {
-    background: linear-gradient(135deg, hsl(0 75% 60%) 0%, hsl(350 80% 50%) 100%);
+    background: linear-gradient(135deg, hsl(355 85% 60%) 0%, hsl(355 85% 50%) 100%);
   }
 
   .gradient-green {

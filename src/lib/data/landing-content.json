@@ -1,0 +1,51 @@
+{
+    "chairman": {
+        "name": "Abdullah Azzam",
+        "period": "2026 - 2027",
+        "photo": "/assets/placeholder-chairman.jpg",
+        "message": "Assalamu'alaikum Warahmatullahi Wabarakatuh. Selamat datang di LDK Al-Fath. Kami berkomitmen untuk menjadikan organisasi ini sebagai rumah dakwah yang inklusif, kreatif, dan profesional. Mari bersama-sama kita wujudkan generasi Rabbani yang unggul dalam iman dan intelektualitas."
+    },
+    "structure": {
+        "core": [
+            {
+                "role": "Ketua Umum",
+                "count": 1
+            },
+            {
+                "role": "Sekretaris Jenderal",
+                "count": 1
+            },
+            {
+                "role": "Bendahara Umum",
+                "count": 1
+            }
+        ],
+        "departments": [
+            {
+                "name": "Kaderisasi",
+                "description": "Media pembinaan dan pengembangan sumber daya anggota.",
+                "icon": "Users"
+            },
+            {
+                "name": "Syiar & Pelayanan",
+                "description": "Pusat dakwah kreatif dan pelayanan keumatan.",
+                "icon": "Megaphone"
+            },
+            {
+                "name": "Media & Komunikasi",
+                "description": "Wajah digital Al-Fath dalam menyebarkan konten kebaikan.",
+                "icon": "MonitorPlay"
+            },
+            {
+                "name": "Kemuslimahan",
+                "description": "Wadah aktualisasi diri khusus mahasiswi muslimah.",
+                "icon": "Flower2"
+            },
+            {
+                "name": "Dana Usaha",
+                "description": "Menunjang kemandirian finansial organisasi.",
+                "icon": "Wallet"
+            }
+        ]
+    }
+}

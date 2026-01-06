@@ -1,4 +1,5 @@
 import { CheckCircle2, Calendar, Star } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 interface QuickStatsProps {
   amalanCompleted: number;
@@ -13,31 +14,31 @@ const QuickStats = ({ amalanCompleted, amalanTotal, upcomingEvents, kaderRank }:
   return (
     <div className="grid grid-cols-3 gap-3">
       {/* Amalan Progress */}
-      <div className="card-pop p-4 flex flex-col items-center">
-        <div className="w-12 h-12 gradient-green rounded-xl border-playful flex items-center justify-center mb-2">
-          <CheckCircle2 className="w-6 h-6 text-success-foreground" />
+      <Card variant="playful" className="p-5 flex flex-col items-center transition-all duration-200 hover:shadow-soft-lg hover:-translate-y-0.5">
+        <div className="w-14 h-14 gradient-green rounded-xl border-playful flex items-center justify-center mb-3">
+          <CheckCircle2 className="w-7 h-7 text-white" />
         </div>
-        <span className="text-lg font-extrabold text-foreground">{progress}%</span>
-        <span className="text-[10px] text-muted-foreground font-medium">Amalan Hari Ini</span>
-      </div>
+        <span className="text-2xl font-extrabold text-foreground">{progress}%</span>
+        <span className="text-xs text-muted-foreground font-semibold mt-1 text-center">Amalan Hari Ini</span>
+      </Card>
 
       {/* Upcoming Events */}
-      <div className="card-pop p-4 flex flex-col items-center">
-        <div className="w-12 h-12 gradient-blue rounded-xl border-playful flex items-center justify-center mb-2">
-          <Calendar className="w-6 h-6 text-secondary-foreground" />
+      <Card variant="playful" className="p-5 flex flex-col items-center transition-all duration-200 hover:shadow-soft-lg hover:-translate-y-0.5">
+        <div className="w-14 h-14 gradient-blue rounded-xl border-playful flex items-center justify-center mb-3">
+          <Calendar className="w-7 h-7 text-white" />
         </div>
-        <span className="text-lg font-extrabold text-foreground">{upcomingEvents}</span>
-        <span className="text-[10px] text-muted-foreground font-medium">Event Mendatang</span>
-      </div>
+        <span className="text-2xl font-extrabold text-foreground">{upcomingEvents}</span>
+        <span className="text-xs text-muted-foreground font-semibold mt-1 text-center">Event Mendatang</span>
+      </Card>
 
       {/* Kader Rank */}
-      <div className="card-pop p-4 flex flex-col items-center">
-        <div className="w-12 h-12 gradient-red rounded-xl border-playful flex items-center justify-center mb-2">
-          <Star className="w-6 h-6 text-accent-foreground" />
+      <Card variant="playful" className="p-5 flex flex-col items-center transition-all duration-200 hover:shadow-soft-lg hover:-translate-y-0.5">
+        <div className="w-14 h-14 gradient-red rounded-xl border-playful flex items-center justify-center mb-3">
+          <Star className="w-7 h-7 text-white" />
         </div>
-        <span className="text-lg font-extrabold text-foreground">#{kaderRank || "-"}</span>
-        <span className="text-[10px] text-muted-foreground font-medium">Rank Bulan Ini</span>
-      </div>
+        <span className="text-2xl font-extrabold text-foreground">#{kaderRank || "-"}</span>
+        <span className="text-xs text-muted-foreground font-semibold mt-1 text-center">Rank Bulan Ini</span>
+      </Card>
     </div>
   );
 };

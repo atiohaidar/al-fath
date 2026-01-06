@@ -89,42 +89,41 @@ const Profile = () => {
     return (
 
       <div className="p-4 space-y-5">
-        {/* Guest Profile Card */}
-        <Card variant="playful" className="p-5 text-center">
-          <div className="w-20 h-20 bg-muted rounded-full mx-auto mb-3 flex items-center justify-center">
-            <UserIcon className="w-10 h-10 text-muted-foreground" />
+        <Card className="p-6 border-playful-thick bg-[#FFFDF5] relative overflow-hidden mt-6">
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 right-0 p-4 opacity-10">
+            <UserIcon className="w-32 h-32 text-primary" />
           </div>
-          <h2 className="font-bold text-foreground mb-1">Mode Tamu</h2>
-          <p className="text-sm text-muted-foreground mb-4">
-            Login untuk mengakses fitur lengkap
-          </p>
-          <Button onClick={handleLogin} variant="gradient-primary" className="w-full">
-            <LogIn className="w-4 h-4 mr-2" />
-            Login
-          </Button>
-        </Card>
+          <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-yellow-300 rounded-full opacity-20 blur-xl"></div>
 
-        {/* Guest Menu - Limited Access */}
-        <div className="space-y-2">
-          {menuItems
-            .filter((item) => !item.requiresAuth)
-            .map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link key={item.path} to={item.path}>
-                  <Card variant="playful" className="p-4 flex items-center gap-4">
-                    <div className={`w-10 h-10 ${item.color} rounded-xl border-playful flex items-center justify-center`}>
-                      <Icon className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="flex-1 font-semibold text-foreground">
-                      {item.title}
-                    </span>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                  </Card>
-                </Link>
-              );
-            })}
-        </div>
+          <div className="relative z-10 text-center space-y-4">
+            <div className="w-16 h-16 bg-red-100 rounded-2xl border-playful flex items-center justify-center mx-auto transform -rotate-3">
+              <LogIn className="w-8 h-8 text-primary" />
+            </div>
+
+            <div>
+              <h3 className="text-xl font-black text-foreground mb-2">
+                Login Sekarang!!!
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed px-2">
+                Anda Sepertinya belum login
+              </p>
+            </div>
+
+            <Button
+              onClick={handleLogin}
+              variant="gradient-primary"
+              size="lg"
+              className="w-full text-lg h-12 shadow-playful hover:translate-y-[-2px] hover:shadow-playful-lg transition-all"
+            >
+              Masuk Sekarang
+            </Button>
+
+            <p className="text-xs text-muted-foreground mt-4">
+              Syarat Keterntuan harusnya berlaku
+            </p>
+          </div>
+        </Card>
       </div>
 
     );
@@ -204,33 +203,72 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Menu List */}
-      <div className="space-y-3">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <Link key={item.path} to={item.path} className="block">
-              <Card variant="playful" className="p-4 flex items-center gap-4">
-                <div className={`w-10 h-10 ${item.color} rounded-xl border-playful flex items-center justify-center`}>
-                  <Icon className="w-5 h-5 text-white" />
-                </div>
-                <span className="flex-1 font-semibold text-foreground">{item.title}</span>
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
-              </Card>
-            </Link>
-          );
-        })}
-      </div>
+      {/* Conditional Content: CTA for Guest vs Menu for User */}
+      {user.divisi === "Tamu" ? (
+        <Card className="p-6 border-playful-thick bg-[#FFFDF5] relative overflow-hidden mt-6">
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 right-0 p-4 opacity-10">
+            <UserIcon className="w-32 h-32 text-primary" />
+          </div>
+          <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-yellow-300 rounded-full opacity-20 blur-xl"></div>
 
-      {/* Logout Button */}
-      <Button onClick={handleLogout} variant="gradient-red" className="w-full justify-start gap-4">
-        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-          <LogOut className="w-5 h-5" />
-        </div>
-        <span className="font-bold">Keluar</span>
-      </Button>
+          <div className="relative z-10 text-center space-y-4">
+            <div className="w-16 h-16 bg-red-100 rounded-2xl border-playful flex items-center justify-center mx-auto transform -rotate-3">
+              <LogIn className="w-8 h-8 text-primary" />
+            </div>
+
+            <div>
+              <h3 className="text-xl font-black text-foreground mb-2">
+                Login Sekarang!!!
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed px-2">
+                Anda Sepertinya belum login
+              </p>
+            </div>
+
+            <Button
+              onClick={handleLogin}
+              variant="gradient-primary"
+              size="lg"
+              className="w-full text-lg h-12 shadow-playful hover:translate-y-[-2px] hover:shadow-playful-lg transition-all"
+            >
+              Masuk Sekarang
+            </Button>
+
+            <p className="text-xs text-muted-foreground mt-4">
+              Syarat Keterntuan harusnya berlaku            </p>
+          </div>
+        </Card>
+      ) : (
+        <>
+          {/* Menu List for Standard Users */}
+          <div className="space-y-3">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link key={item.path} to={item.path} className="block">
+                  <Card variant="playful" className="p-4 flex items-center gap-4 hover:translate-x-1 transition-transform">
+                    <div className={`w-10 h-10 ${item.color} rounded-xl border-playful flex items-center justify-center`}>
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="flex-1 font-semibold text-foreground">{item.title}</span>
+                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Logout Button */}
+          <Button onClick={handleLogout} variant="gradient-red" className="w-full justify-start gap-4 mt-4">
+            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+              <LogOut className="w-5 h-5" />
+            </div>
+            <span className="font-bold">Keluar</span>
+          </Button>
+        </>
+      )}
     </div>
-
   );
 };
 

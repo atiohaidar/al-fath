@@ -19,7 +19,7 @@ const QuickStats = ({ amalanCompleted, amalanTotal, upcomingEvents, kaderRank }:
           <CheckCircle2 className="w-7 h-7 text-white" />
         </div>
         <span className="text-2xl font-extrabold text-foreground">{progress}%</span>
-        <span className="text-xs text-muted-foreground font-semibold mt-1">Amalan Hari Ini</span>
+        <span className="text-xs text-muted-foreground font-semibold mt-1 text-center">Amalan Hari Ini</span>
       </Card>
 
       {/* Upcoming Events */}
@@ -28,7 +28,7 @@ const QuickStats = ({ amalanCompleted, amalanTotal, upcomingEvents, kaderRank }:
           <Calendar className="w-7 h-7 text-white" />
         </div>
         <span className="text-2xl font-extrabold text-foreground">{upcomingEvents}</span>
-        <span className="text-xs text-muted-foreground font-semibold mt-1">Event Mendatang</span>
+        <span className="text-xs text-muted-foreground font-semibold mt-1 text-center">Event Mendatang</span>
       </Card>
 
       {/* Kader Rank */}
@@ -37,7 +37,7 @@ const QuickStats = ({ amalanCompleted, amalanTotal, upcomingEvents, kaderRank }:
           <Star className="w-7 h-7 text-white" />
         </div>
         <span className="text-2xl font-extrabold text-foreground">#{kaderRank || "-"}</span>
-        <span className="text-xs text-muted-foreground font-semibold mt-1">Rank Bulan Ini</span>
+        <span className="text-xs text-muted-foreground font-semibold mt-1 text-center">Rank Bulan Ini</span>
       </Card>
     </div>
   );

@@ -61,7 +61,7 @@ const decorativeConfig = {
         // TOP LEFT CORNER - Heavy stacking
         { src: "/assets/playful/Rectangle/Kotak Biru.png", position: "-top-20 -left-24", size: "w-52 h-52", opacity: "opacity-65", rotation: "-rotate-12" },
         { src: "/assets/playful/Rectangle/Kotak Kuning.png", position: "-top-4 -left-12", size: "w-36 h-36", opacity: "opacity-55", rotation: "rotate-6" },
-        { src: "/assets/playful/Star/SHEEESH.png", position: "top-4 left-4", size: "w-20 h-20", opacity: "opacity-80", rotation: "-rotate-6" },
+        { src: "/assets/playful/Star/Bismillah_Berkah_Pink.png", position: "top-4 left-4", size: "w-20 h-20", opacity: "opacity-80", rotation: "-rotate-6" },
         { src: "/assets/playful/Star/Kuning.png", position: "top-20 -left-2", size: "w-14 h-14", opacity: "opacity-70", rotation: "rotate-12" },
 
 
@@ -77,13 +77,13 @@ const decorativeConfig = {
         { src: "/assets/playful/Smiley/Asset 101@4x.png", position: "top-[55%] right-4", size: "w-10 h-10", opacity: "opacity-40", rotation: "" },
 
         // BOTTOM LEFT CORNER - Heavy stacking
-        { src: "/assets/playful/Rectangle/Kotak Merah.png", position: "-bottom-2 -left-2", size: "w-52 h-52", opacity: "opacity-65", rotation: "rotate-12" },
+        { src: "/assets/playful/Rectangle/Kotak Merah.png", position: "-bottom-2 -left-8", size: "w-52 h-52", opacity: "opacity-65", rotation: "rotate-12" },
         { src: "/assets/playful/Rectangle/Kotak Kuning.png", position: "-bottom-2 -left-2", size: "w-36 h-36", opacity: "opacity-55", rotation: "-rotate-6" },
-        { src: "/assets/playful/Star/SHEEESH.png", position: "bottom-2 left-2", size: "w-24 h-24", opacity: "opacity-75", rotation: "rotate-6" },
+        { src: "/assets/playful/Star/Kuy_Pink.png", position: "bottom-2 left-2", size: "w-24 h-24", opacity: "opacity-75", rotation: "rotate-6" },
         { src: "/assets/playful/Star/Biru.png", position: "bottom-40 left-20", size: "w-12 h-12", opacity: "opacity-60", rotation: "-rotate-12" },
 
         // BOTTOM RIGHT CORNER - Heavy stacking
-        { src: "/assets/playful/Rectangle/Kotak Biru.png", position: "-bottom-2 -right-2", size: "w-48 h-48", opacity: "opacity-60", rotation: "-rotate-6" },
+        { src: "/assets/playful/Rectangle/Kotak Biru.png", position: "-bottom-2 -right-8", size: "w-48 h-48", opacity: "opacity-60", rotation: "-rotate-6" },
         { src: "/assets/playful/Star/Merah.png", position: "bottom-20 right-2", size: "w-14 h-14", opacity: "opacity-50", rotation: "rotate-45" },
         { src: "/assets/playful/Rectangle/Letsgoo.png", position: "bottom-2 right-2", size: "w-28 h-28", opacity: "opacity-80", rotation: "rotate-3" },
         { src: "/assets/playful/Star/SHEEESH.png", position: "bottom-24 right-20", size: "w-16 h-16", opacity: "opacity-70", rotation: "rotate-12" },

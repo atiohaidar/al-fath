@@ -33,7 +33,10 @@ const DesktopLayout = ({ children, showDecorations = true }: DesktopLayoutProps)
                     <div className="w-10 h-10 rounded-xl bg-card border-playful flex items-center justify-center p-1">
                         <img src="/logo.png" alt="AF" className="w-full h-full object-contain" />
                     </div>
-                    <h1 className="font-bold text-xl">Al-Fath</h1>
+                    <div className="flex flex-col">
+                        <h1 className="font-black text-xl leading-none text-[#9F1239] tracking-widest font-['Orbitron'] uppercase">AL-FATH</h1>
+                        <p className="text-[10px] font-medium text-[#5c3d2e] leading-tight">Universitas Telkom</p>
+                    </div>
                 </div>
 
                 <nav className="space-y-3 flex-1">

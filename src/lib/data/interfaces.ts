@@ -25,7 +25,7 @@ export interface User {
 
 export interface IAmalanRepository {
     getAmalans(date: string): Promise<Amalan[]>;
-    toggleAmalan(id: string | number): Promise<void>; // id depends on DB implementation
+    toggleAmalan(id: number): Promise<void>;
     addAmalan(amalan: Omit<Amalan, "id">): Promise<string | number>;
     updateAmalan(id: number, updates: Partial<Omit<Amalan, 'id' | 'date'>>): Promise<void>;
     deleteAmalan(id: number): Promise<void>;
@@ -41,7 +41,7 @@ export interface KaderRank {
 }
 
 export interface IAuthRepository {
-    login(email: string): Promise<User | null>;
+    login(email: string, password?: string): Promise<User | null>;
     register(user: User): Promise<User>;
     getCurrentUser(): Promise<User | null>;
     getUser(id: number): Promise<User | null>;
@@ -50,6 +50,7 @@ export interface IAuthRepository {
     updatePassword(userId: number, oldPassword: string, newPassword: string): Promise<boolean>;
     getKaderRankings(): Promise<KaderRank[]>;
     loginAsGuest(): Promise<User>;
+    setSession(userId: number): Promise<void>;
 }
 
 export interface Event {

@@ -32,6 +32,10 @@ const RiwayatGenerasi = lazy(() => import("./pages/profile/RiwayatGenerasi"));
 const RiwayatKepanitiaan = lazy(() => import("./pages/profile/RiwayatKepanitiaan"));
 const RiwayatKegiatan = lazy(() => import("./pages/profile/RiwayatKegiatan"));
 
+// Event Pages
+const EventAttendance = lazy(() => import("./pages/EventAttendance"));
+
+
 import AuthGuard from "@/components/AuthGuard";
 
 const queryClient = new QueryClient({
@@ -89,6 +93,11 @@ const App = () => (
               <Route path="/app/events/:id/scan" element={
                 <AuthGuard>
                   <EventScanner />
+                </AuthGuard>
+              } />
+              <Route path="/app/events/:id/attendance" element={
+                <AuthGuard>
+                  <EventAttendance />
                 </AuthGuard>
               } />
 

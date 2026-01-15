@@ -30,7 +30,7 @@ const Auth = () => {
         const user = await authRepository.login(formData.email, formData.password);
         if (user) {
           const userId = user.id ? Number(user.id) : 0;
-          await (authRepository as any).setSession(userId);
+          await authRepository.setSession(userId);
           toast.success("Berhasil masuk!");
           navigate(ROUTES.APP.HOME);
         } else {

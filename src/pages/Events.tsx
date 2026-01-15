@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Plus, MapPin, Calendar, Clock, Lock, Users } from "lucide-react";
 import { useRepositories } from "@/hooks/use-repositories";
 import { Event, User } from "@/lib/data/interfaces";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
+import { ROUTES, buildRoute } from "@/lib/routes";
 import CreateEventDialog from "@/components/events/CreateEventDialog";
 import EventDetailDialog from "@/components/events/EventDetailDialog";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,20 @@ const Events = () => {
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
+  const loadData = useCallback(async () => {
+    const [eventData, user] = await Promise.all([
+      eventRepository.getEvents(),
+      authRepository.getCurrentUser()
+    ]);
+    // Sort by date descending (newest first)
+    setEvents(eventData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+    setCurrentUser(user);
+  }, [eventRepository, authRepository]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
   const handleEditClick = (event: Event) => {
     setEditingEvent(event);
     setIsCreateOpen(true);
@@ -35,20 +50,6 @@ const Events = () => {
       setIsDetailOpen(true);
     }
   };
-
-  const loadData = async () => {
-    const [eventData, user] = await Promise.all([
-      eventRepository.getEvents(),
-      authRepository.getCurrentUser()
-    ]);
-    // Sort by date descending (newest first)
-    setEvents(eventData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
-    setCurrentUser(user);
-  };
-
-  useEffect(() => {
-    loadData();
-  }, [eventRepository, authRepository]);
 
   const isCreator = (event: Event) => currentUser?.id === event.creatorId;
 
@@ -130,7 +131,7 @@ const Events = () => {
               <div className="grid grid-cols-2 gap-3 mt-2">
                 {/* Tombol Presensi (Hijau) */}
                 <Button
-                  onClick={() => isCreator(event) ? navigate(`/app/events/${event.id}/scan`) : navigate(`/app/events/${event.id}/attendance`)}
+                  onClick={() => isCreator(event) ? navigate(buildRoute(ROUTES.APP.EVENT_SCAN, { id: event.id! })) : navigate(buildRoute(ROUTES.APP.EVENT_ATTENDANCE, { id: event.id! }))}
                   variant="gradient-green"
                   className="w-full rounded-xl font-bold"
                 >

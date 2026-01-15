@@ -1,13 +1,44 @@
 import { db } from '../db';
-import { Amalan, IAmalanRepository, User, IAuthRepository, Event, Attendance, IEventRepository, KaderRank } from '../interfaces';
+import { User, IAuthRepository, KaderRank } from '../interfaces';
+
+/**
+ * Simple password hashing utility.
+ * NOTE: In production, use bcrypt or similar secure hashing library!
+ * This is a basic implementation for local development only.
+ */
+const hashPassword = (password: string): string => {
+    // Simple hash using btoa + salt for demo purposes
+    // In production, use bcrypt: await bcrypt.hash(password, 10)
+    return btoa(`alfath_salt_${password}_hash`);
+};
+
+const verifyPassword = (password: string, hashedPassword: string): boolean => {
+    return hashPassword(password) === hashedPassword;
+};
+
+/**
+ * Guest user constant to avoid duplication
+ */
+const GUEST_USER: User = {
+    id: 0,
+    email: "guest@alfath.com",
+    nama: "Tamu",
+    nim: "-",
+    divisi: "Tamu",
+    tingkatKader: "Umum",
+    generasi: "-",
+    jabatan: "Pengunjung",
+    avatar: null
+};
+
 
 export class LocalAuthRepository implements IAuthRepository {
     async login(email: string, password?: string): Promise<User | null> {
-        // simple lookup by email and password
         const user = await db.users.where('email').equals(email).first();
 
         if (user && password) {
-            if (user.password === password) {
+            // Verify hashed password
+            if (user.password && verifyPassword(password, user.password)) {
                 return user;
             }
             return null;
@@ -17,8 +48,13 @@ export class LocalAuthRepository implements IAuthRepository {
     }
 
     async register(user: User): Promise<User> {
-        const id = await db.users.add(user);
-        return { ...user, id };
+        // Hash password before storing
+        const userToStore = {
+            ...user,
+            password: user.password ? hashPassword(user.password) : undefined
+        };
+        const id = await db.users.add(userToStore);
+        return { ...userToStore, id };
     }
 
     async getCurrentUser(): Promise<User | null> {
@@ -27,17 +63,7 @@ export class LocalAuthRepository implements IAuthRepository {
         if (!userId) return null;
 
         if (userId === 'guest') {
-            return {
-                id: 0, // 0 for guest
-                email: "guest@alfath.com",
-                nama: "Tamu",
-                nim: "-",
-                divisi: "Tamu",
-                tingkatKader: "Umum",
-                generasi: "-",
-                jabatan: "Pengunjung",
-                avatar: null
-            };
+            return GUEST_USER;
         }
 
         // Dexie auto-increment IDs are numbers, but we might store as string in localStorage
@@ -55,7 +81,7 @@ export class LocalAuthRepository implements IAuthRepository {
     }
 
     // Helper to set session
-    async setSession(userId: number) {
+    async setSession(userId: number): Promise<void> {
         localStorage.setItem('currentUserId', userId.toString());
     }
 
@@ -67,13 +93,13 @@ export class LocalAuthRepository implements IAuthRepository {
         const user = await db.users.get(userId);
         if (!user) return false;
 
-        // Verify old password
-        if (user.password !== oldPassword) {
+        // Verify old password using hash comparison
+        if (!user.password || !verifyPassword(oldPassword, user.password)) {
             return false;
         }
 
-        // Update to new password
-        await db.users.update(userId, { password: newPassword });
+        // Update to new hashed password
+        await db.users.update(userId, { password: hashPassword(newPassword) });
         return true;
     }
 
@@ -94,18 +120,7 @@ export class LocalAuthRepository implements IAuthRepository {
     }
 
     async loginAsGuest(): Promise<User> {
-        const guestUser: User = {
-            id: 0, // 0 for guest
-            email: "guest@alfath.com",
-            nama: "Tamu",
-            nim: "-",
-            divisi: "Tamu",
-            tingkatKader: "Umum",
-            generasi: "-",
-            jabatan: "Pengunjung",
-            avatar: null
-        };
         localStorage.setItem('currentUserId', 'guest');
-        return guestUser;
+        return GUEST_USER;
     }
 }

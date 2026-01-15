@@ -13,11 +13,14 @@ export const ROUTES = {
         HOME: "/app",
         AMALAN: "/app/amalan",
         EVENTS: "/app/events",
+        EVENT_SCAN: "/app/events/:id/scan",
+        EVENT_ATTENDANCE: "/app/events/:id/attendance",
         INFO: "/app/info",
         PROFILE: "/app/profile",
         KADER_OF_MONTH: "/app/kader-of-month",
 
         // Profile sub-routes
+        PROFILE_ID_CARD: "/app/profile/id-card",
         PROFILE_STATISTIK: "/app/profile/statistik",
         PROFILE_RIWAYAT_GEN: "/app/profile/riwayat-gen",
         PROFILE_RIWAYAT_PANITIA: "/app/profile/riwayat-panitia",
@@ -25,8 +28,8 @@ export const ROUTES = {
         PROFILE_SETTINGS: "/app/profile/settings",
     },
 
-    // Error routes
-    NOT_FOUND: "/404",
+    // Error routes (catch-all handled by '*' in router)
+    NOT_FOUND: "*",
 } as const;
 
 /**

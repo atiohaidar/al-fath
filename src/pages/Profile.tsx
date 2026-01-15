@@ -106,7 +106,7 @@ const Profile = () => {
                 Login Sekarang!!!
               </h3>
               <p className="text-muted-foreground text-sm leading-relaxed px-2">
-                Anda Sepertinya belum login
+                Anda sepertinya belum login
               </p>
             </div>
 
@@ -120,7 +120,7 @@ const Profile = () => {
             </Button>
 
             <p className="text-xs text-muted-foreground mt-4">
-              Syarat Keterntuan harusnya berlaku
+              Syarat dan Ketentuan berlaku
             </p>
           </div>
         </Card>
@@ -170,7 +170,7 @@ const Profile = () => {
             </Badge>
             <div className="mt-3">
               <Button
-                onClick={() => navigate("/app/profile/id-card")}
+                onClick={() => navigate(ROUTES.APP.PROFILE_ID_CARD)}
                 size="sm"
                 variant="gradient-primary"
                 className="rounded-xl h-8 text-xs gap-2 shadow-playful-sm"
@@ -222,7 +222,7 @@ const Profile = () => {
                 Login Sekarang!!!
               </h3>
               <p className="text-muted-foreground text-sm leading-relaxed px-2">
-                Anda Sepertinya belum login
+                Anda sepertinya belum login
               </p>
             </div>
 
@@ -236,7 +236,8 @@ const Profile = () => {
             </Button>
 
             <p className="text-xs text-muted-foreground mt-4">
-              Syarat Keterntuan harusnya berlaku            </p>
+              Syarat dan Ketentuan berlaku
+            </p>
           </div>
         </Card>
       ) : (

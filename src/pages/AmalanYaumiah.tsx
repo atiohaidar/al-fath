@@ -5,46 +5,12 @@ import { id } from "date-fns/locale";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRepositories } from "@/hooks/use-repositories";
 import { Amalan } from "@/lib/data/interfaces";
+import { DEFAULT_AMALAN_TEMPLATE, AMALAN_CATEGORY_COLORS, AMALAN_CATEGORY_ICONS } from "@/lib/data/constants";
 import AddAmalanDialog from "@/components/amalan/AddAmalanDialog";
 import EditAmalanDialog from "@/components/amalan/EditAmalanDialog";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-const DEFAULT_AMALAN_TEMPLATE: Omit<Amalan, "id" | "date">[] = [
-  { name: "Sholat Subuh", category: "Sholat Wajib", completed: false, time: "05:00" },
-  { name: "Sholat Dhuha", category: "Sholat Sunnah", completed: false },
-  { name: "Sholat Dzuhur", category: "Sholat Wajib", completed: false, time: "12:00" },
-  { name: "Sholat Ashar", category: "Sholat Wajib", completed: false, time: "15:00" },
-  { name: "Sholat Maghrib", category: "Sholat Wajib", completed: false, time: "18:00" },
-  { name: "Sholat Isya", category: "Sholat Wajib", completed: false, time: "19:00" },
-  { name: "Tilawah 1 Halaman", category: "Al-Quran", completed: false },
-  { name: "Dzikir Pagi", category: "Dzikir", completed: false },
-  { name: "Dzikir Petang", category: "Dzikir", completed: false },
-  { name: "Sholat Tahajud", category: "Sholat Sunnah", completed: false },
-  { name: "Sedekah", category: "Amal", completed: false },
-  { name: "Puasa Sunnah", category: "Puasa", completed: false },
-];
-
-const categoryColors: Record<string, string> = {
-  "Sholat Wajib": "gradient-green",
-  "Sholat Sunnah": "gradient-blue",
-  "Al-Quran": "gradient-yellow",
-  "Dzikir": "gradient-red",
-  "Amal": "bg-alfath-green",
-  "Puasa": "bg-alfath-blue",
-  "Lainnya": "bg-muted"
-};
-
-// Icon mapping per kategori - bisa di-customize
-const categoryIcons: Record<string, string> = {
-  "Sholat Wajib": "🕌",
-  "Sholat Sunnah": "🏠",
-  "Al-Quran": "📖",
-  "Dzikir": "🤲",
-  "Amal": "🤲",
-  "Puasa": "🌙",
-  "Lainnya": "🕌" // Default: masjid
-};
 
 const AmalanYaumiah = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -248,15 +214,15 @@ const AmalanYaumiah = () => {
                 <Card variant="playful" className="p-4 flex items-center gap-4 text-left hover:shadow-playful-lg transition-shadow">
                   <div
                     className={`w-12 h-12 rounded-xl border-playful flex items-center justify-center flex-shrink-0 transition-all ${amalan.completed
-                        ? "gradient-green"
-                        : categoryColors[amalan.category] || "bg-muted"
+                      ? "gradient-green"
+                      : AMALAN_CATEGORY_COLORS[amalan.category] || "bg-muted"
                       }`}
                   >
                     {amalan.completed ? (
                       <Check className="w-6 h-6 text-success-foreground" />
                     ) : (
                       <span className="text-lg">
-                        {categoryIcons[amalan.category] || "🕌"}
+                        {AMALAN_CATEGORY_ICONS[amalan.category] || "🕌"}
                       </span>
                     )}
                   </div>
